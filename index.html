@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a1f">
+    <meta name="description" content="SkyMind - אפליקציית לימוד חכמה לרישיון רחפנים">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SkyMind">
+    
+    <title>SkyMind | רישיון רחפנים</title>
+    
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Early theme init to prevent flash -->
+    <script>
+        (function() {
+            try {
+                const saved = localStorage.getItem('skymind_theme');
+                const theme = saved ? JSON.parse(saved) : 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body>
+    <div id="app">
+        <!-- ==================== SPLASH SCREEN ==================== -->
+        <div id="splashScreen" class="screen active">
+            <div class="splash-content">
+                <div class="splash-logo">
+                    <svg viewBox="0 0 100 100" class="drone-icon">
+                        <defs>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <circle cx="50" cy="50" r="8" fill="var(--accent-primary)" filter="url(#glow)"/>
+                        <line x1="50" y1="50" x2="20" y2="20" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <line x1="50" y1="50" x2="80" y2="20" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <line x1="50" y1="50" x2="20" y2="80" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <line x1="50" y1="50" x2="80" y2="80" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <circle cx="20" cy="20" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2" class="rotor"/>
+                        <circle cx="80" cy="20" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2" class="rotor"/>
+                        <circle cx="20" cy="80" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2" class="rotor"/>
+                        <circle cx="80" cy="80" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2" class="rotor"/>
+                    </svg>
+                </div>
+                <h1 class="splash-title">SkyMind</h1>
+                <p class="splash-subtitle">לומדים לטוס חכם</p>
+                <div class="splash-loader">
+                    <div class="loader-bar"></div>
+                </div>
+                <p id="splashStatus" class="splash-status">מאתחל...</p>
+            </div>
+        </div>
+
+        <!-- ==================== HEADER ==================== -->
+        <header id="appHeader" class="app-header hidden">
+            <button id="backBtn" class="header-btn hidden" aria-label="חזור">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+            <h1 id="headerTitle" class="header-title">SkyMind</h1>
+            <div class="header-actions">
+                <button id="themeToggle" class="header-btn theme-toggle" aria-label="החלף ערכת נושא">☀️</button>
+            </div>
+        </header>
+
+        <!-- ==================== MAIN CONTENT AREA ==================== -->
+        <main id="mainContent" class="main-content">
+            
+            <!-- HOME SCREEN -->
+            <div id="homeScreen" class="screen">
+                <div class="home-hero">
+                    <div class="hero-content">
+                        <!-- Level Card -->
+                        <div class="level-card glass">
+                            <div class="level-info">
+                                <div class="level-badge">
+                                    <span id="levelNumber">1</span>
+                                </div>
+                                <div class="level-details">
+                                    <span class="level-title">רמה <span id="levelText">1</span></span>
+                                    <span id="xpText" class="xp-text">0 / 500 XP</span>
+                                </div>
+                            </div>
+                            <div class="xp-bar">
+                                <div id="xpProgress" class="xp-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Row -->
+                        <div class="hero-stats">
+                            <div class="stat-card glass">
+                                <div class="stat-icon">📚</div>
+                                <span class="stat-value" id="statTotal">0</span>
+                                <span class="stat-label">שאלות</span>
+                            </div>
+                            <div class="stat-card glass">
+                                <div class="stat-icon">✅</div>
+                                <span class="stat-value" id="statMastered">0</span>
+                                <span class="stat-label">נלמדו</span>
+                            </div>
+                            <div class="stat-card glass accent">
+                                <div class="stat-icon">🎯</div>
+                                <span class="stat-value" id="statAccuracy">0%</span>
+                                <span class="stat-label">הצלחה</span>
+                            </div>
+                        </div>
+
+                        <!-- Mini Stats -->
+                        <div class="extended-stats">
+                            <div class="mini-stat">
+                                <span class="mini-stat-icon">🔥</span>
+                                <span class="mini-stat-value" id="statStreak">0</span>
+                                <span class="mini-stat-label">ימים</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="mini-stat-icon">⏱️</span>
+                                <span class="mini-stat-value" id="statStudyToday">0</span>
+                                <span class="mini-stat-label">דק׳ היום</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="mini-stat-icon">📅</span>
+                                <span class="mini-stat-value" id="statDue">0</span>
+                                <span class="mini-stat-label">לחזרה</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-actions">
+                    <button id="smartTutorBtn" class="action-btn primary glow-effect">
+                        <div class="action-icon">🧠</div>
+                        <div class="action-text">
+                            <span class="action-title">Smart Tutor</span>
+                            <span class="action-desc">לימוד חכם עם חזרות מרווחות</span>
+                        </div>
+                        <span id="dueBadge" class="due-badge hidden">0</span>
+                    </button>
+
+                    <button id="practiceBtn" class="action-btn">
+                        <div class="action-icon">📖</div>
+                        <div class="action-text">
+                            <span class="action-title">תרגול לפי נושאים</span>
+                            <span class="action-desc">בחר נושא ותרגל</span>
+                        </div>
+                    </button>
+
+                    <button id="examBtn" class="action-btn">
+                        <div class="action-icon">⏱️</div>
+                        <div class="action-text">
+                            <span class="action-title">מבחן מדמה</span>
+                            <span class="action-desc">בדוק את עצמך בזמן אמת</span>
+                        </div>
+                    </button>
+
+                    <button id="searchBtn" class="action-btn">
+                        <div class="action-icon">🔍</div>
+                        <div class="action-text">
+                            <span class="action-title">חיפוש שאלות</span>
+                            <span class="action-desc">מצא שאלה לפי מילים</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="home-footer">
+                    <p class="footer-tip">💡 טיפ: התחל עם Smart Tutor לתוצאות מיטביות</p>
+                </div>
+            </div>
+
+            <!-- TOPICS SCREEN -->
+            <div id="topicsScreen" class="screen">
+                <div class="topics-header">
+                    <p class="topics-intro">בחר נושא לתרגול ממוקד</p>
+                </div>
+                <div id="topicsList" class="topics-list"></div>
+            </div>
+
+
+            <div id="subtopicsScreen" class="screen">
+                <div class="topics-header">
+                    <p id="subtopicsIntro" class="topics-intro">בחר תת־נושא לתרגול ממוקד</p>
+                </div>
+                <div id="subtopicsList" class="topics-list"></div>
+            </div>
+
+            <!-- SMART TUTOR CONFIG SCREEN -->
+            <div id="smartTutorScreen" class="screen">
+                <div class="tutor-config">
+                    <div class="tutor-header glass">
+                        <h2>🧠 Smart Tutor</h2>
+                        <p>התאם את סשן הלימוד שלך</p>
+                    </div>
+
+                    <div class="tutor-preview glass">
+                        <h3>תצוגה מקדימה של הסשן</h3>
+                        <div class="session-mix">
+                            <div class="mix-item">
+                                <span class="mix-icon">🔄</span>
+                                <span class="mix-label">לחזרה (Due)</span>
+                                <span id="mixDue" class="mix-count">0</span>
+                            </div>
+                            <div class="mix-item">
+                                <span class="mix-icon">⚠️</span>
+                                <span class="mix-label">נקודות חולשה</span>
+                                <span id="mixWeak" class="mix-count">0</span>
+                            </div>
+                            <div class="mix-item">
+                                <span class="mix-icon">✨</span>
+                                <span class="mix-label">שאלות חדשות</span>
+                                <span id="mixNew" class="mix-count">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutor-options glass">
+                        <h3>מצב התמקדות</h3>
+                        <div class="focus-options">
+                            <label class="focus-option">
+                                <input type="radio" name="focusMode" value="mixed" checked>
+                                <span class="option-content">
+                                    <span class="option-icon">🎯</span>
+                                    <span class="option-text">
+                                        <strong>מאוזן</strong>
+                                        <small>שילוב אופטימלי</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="focus-option">
+                                <input type="radio" name="focusMode" value="due">
+                                <span class="option-content">
+                                    <span class="option-icon">🔄</span>
+                                    <span class="option-text">
+                                        <strong>חזרה בלבד</strong>
+                                        <small>רק שאלות לחזרה</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="focus-option">
+                                <input type="radio" name="focusMode" value="weak">
+                                <span class="option-content">
+                                    <span class="option-icon">⚠️</span>
+                                    <span class="option-text">
+                                        <strong>חולשות בלבד</strong>
+                                        <small>שיפור נקודות חלשות</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="focus-option">
+                                <input type="radio" name="focusMode" value="new">
+                                <span class="option-content">
+                                    <span class="option-icon">✨</span>
+                                    <span class="option-text">
+                                        <strong>חדשות בלבד</strong>
+                                        <small>ללמוד דברים חדשים</small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="tutor-actions">
+                        <button id="startTutorBtn" class="btn-primary btn-lg">התחל לימוד</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUIZ SCREEN -->
+            <div id="quizScreen" class="screen">
+                <div class="quiz-header">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div class="quiz-info">
+                        <span id="questionCounter">1 / 20</span>
+                        <span id="quizTimer" class="quiz-timer hidden">45:00</span>
+                        <span id="scoreDisplay">0 נכון</span>
+                    </div>
+                </div>
+                
+                <div class="quiz-content">
+                    <div class="question-meta">
+                        <span id="questionTopic" class="question-topic"></span>
+                        <span id="questionId" class="question-id"></span>
+                    </div>
+                    
+                    <div class="question-card glass">
+                        <p id="questionText" class="question-text"></p>
+                    </div>
+                    
+                    <div id="choicesList" class="choices-list"></div>
+                    
+                    <div id="explanationCard" class="explanation-card hidden">
+                        <div class="explanation-header">
+                            <span class="explanation-icon">💡</span>
+                            <span>הסבר</span>
+                        </div>
+                        <p id="explanationText"></p>
+                    </div>
+                </div>
+                
+                <div class="quiz-actions">
+                    <button id="nextBtn" class="btn-primary hidden">הבא →</button>
+                    <button id="finishBtn" class="btn-primary hidden">סיים</button>
+                </div>
+            </div>
+
+            <!-- RESULTS SCREEN -->
+            <div id="resultsScreen" class="screen">
+                <div class="results-content">
+                    <div class="results-header glass">
+                        <div id="resultsIcon" class="results-icon">🏆</div>
+                        <div class="results-score">
+                            <span id="resultsPercent" class="results-percent">0%</span>
+                            <span id="resultsText" class="results-text">0 מתוך 0</span>
+                        </div>
+                        <div id="xpEarned" class="xp-earned">+0 XP</div>
+                    </div>
+                    
+                    <div class="results-breakdown glass">
+                        <h3>פירוט לפי נושאים</h3>
+                        <div id="resultsBreakdown"></div>
+                    </div>
+                    
+                    <div class="results-actions">
+                        <button id="reviewMistakesBtn" class="btn-secondary">סקור טעויות</button>
+                        <button id="retryBtn" class="btn-primary">נסה שוב</button>
+                        <button id="homeFromResultsBtn" class="btn-ghost">חזור לדף הבית</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEARCH SCREEN -->
+            <div id="searchScreen" class="screen">
+                <div class="search-content">
+                    <div class="search-box glass">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="חפש שאלה..." autocomplete="off">
+                        <button id="clearSearch" class="clear-search hidden">×</button>
+                    </div>
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+            </div>
+
+            <!-- INSIGHTS SCREEN -->
+            <div id="insightsScreen" class="screen">
+                <div class="insights-content">
+                    <div class="insights-stats">
+                        <div class="insight-stat glass">
+                            <span class="insight-value" id="insightTotal">0</span>
+                            <span class="insight-label">סה"כ שאלות</span>
+                        </div>
+                        <div class="insight-stat glass">
+                            <span class="insight-value" id="insightAnswered">0</span>
+                            <span class="insight-label">נענו</span>
+                        </div>
+                        <div class="insight-stat glass accent">
+                            <span class="insight-value" id="insightDue">0</span>
+                            <span class="insight-label">לחזרה</span>
+                        </div>
+                    </div>
+
+                    <div class="insights-section glass">
+                        <h3>🎯 המלצה</h3>
+                        <div id="recommendation"></div>
+                    </div>
+
+                    <div class="insights-section glass">
+                        <h3>⚠️ נושאים חלשים</h3>
+                        <div id="weakTopics"></div>
+                    </div>
+
+                    <div class="insights-section glass">
+                        <h3>📊 התקדמות לפי נושאים</h3>
+                        <div id="topicsProgress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACHIEVEMENTS SCREEN -->
+            <div id="achievementsScreen" class="screen">
+                <div class="achievements-content">
+                    <div class="achievements-header glass">
+                        <h2>🏆 הישגים</h2>
+                        <span id="achievementsCount" class="achievements-count">0 / 22</span>
+                    </div>
+                    <div id="achievementsList" class="achievements-list"></div>
+                </div>
+            </div>
+
+            <!-- CMS SCREEN -->
+            <div id="cmsScreen" class="screen">
+                <div class="cms-content">
+                    <div class="cms-header glass">
+                        <div class="cms-title-row">
+                            <h2>ניהול מאגר שאלות</h2>
+                            <span id="cmsQuestionCount" class="cms-count">0 שאלות</span>
+                        </div>
+                        <div class="cms-tabs">
+                            <button class="cms-tab active" data-tab="questions">שאלות</button>
+                            <button class="cms-tab" data-tab="topics">נושאים</button>
+                            <button class="cms-tab" data-tab="review">לבדיקה</button>
+                            <button class="cms-tab" data-tab="import">ייבוא</button>
+                        </div>
+                    </div>
+
+                    <!-- Questions Tab -->
+                    <div id="cmsQuestionsTab" class="cms-tab-content active">
+                        <div class="cms-toolbar glass">
+                            <button id="addQuestionBtn" class="btn-primary btn-sm">+ הוסף שאלה</button>
+                            <button id="exportQuestionsBtn" class="btn-secondary btn-sm">📤 ייצא JSON</button>
+                        </div>
+                        <div class="cms-filters glass">
+                            <select id="cmsTopicFilter">
+                                <option value="">כל הנושאים</option>
+                            </select>
+                            <input type="text" id="cmsSearch" placeholder="חפש שאלה...">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="cmsMissingCorrect">
+                                <span>חסרה תשובה</span>
+                            </label>
+                        </div>
+                        <div class="cms-list-info">
+                            <span id="cmsFilteredCount">0 שאלות</span>
+                        </div>
+                        <div id="cmsQuestionsList" class="cms-questions-list"></div>
+                        <div id="cmsPagination" class="cms-pagination"></div>
+                    </div>
+
+                    <!-- Topics Tab -->
+                    <div id="cmsTopicsTab" class="cms-tab-content">
+                        <div class="cms-toolbar glass">
+                            <p>ניהול נושאים - שנה שמות, מזג נושאים</p>
+                        </div>
+                        <div id="cmsTopicsList" class="topics-manager-list"></div>
+                    </div>
+
+                    <!-- Review Tab -->
+                    <div id="cmsReviewTab" class="cms-tab-content">
+                        <div class="cms-toolbar glass">
+                            <p>שאלות הדורשות בדיקה ותיקון</p>
+                        </div>
+                        <div id="cmsReviewList" class="cms-questions-list"></div>
+                    </div>
+
+                    <!-- Import Tab -->
+                    <div id="cmsImportTab" class="cms-tab-content">
+                        <div class="import-section glass">
+                            <h3>📥 ייבוא שאלות</h3>
+                            
+                            <div class="import-option">
+                                <h4>ייבוא קובץ JSON</h4>
+                                <p>ייבוא מערך שאלות מקובץ JSON מעוצב</p>
+                                <input type="file" id="importJsonFile" accept=".json" class="hidden">
+                                <button id="importJsonBtn" class="btn-secondary">בחר קובץ JSON</button>
+                            </div>
+
+                            <div class="import-option">
+                                <h4>ייבוא טקסט גולמי</h4>
+                                <p>ייבוא שאלות מקובץ TXT - יפורסר אוטומטית</p>
+                                <input type="file" id="importTextFile" accept=".txt" multiple class="hidden">
+                                <button id="importTextBtn" class="btn-secondary">בחר קובצי TXT</button>
+                            </div>
+
+                            <div class="import-option">
+                                <h4>גיבוי מלא</h4>
+                                <p>ייבוא גיבוי כולל שאלות, התקדמות והגדרות</p>
+                                <input type="file" id="importBackupFile" accept=".json" class="hidden">
+                                <button id="importBackupBtn" class="btn-secondary">שחזר גיבוי</button>
+                            </div>
+
+                            <div class="import-mode glass">
+                                <h4>מצב ייבוא</h4>
+                                <label class="radio-label">
+                                    <input type="radio" name="importMode" value="merge" checked>
+                                    <span>מיזוג - הוסף לשאלות קיימות</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="importMode" value="replace">
+                                    <span>החלפה - מחק הכל והחלף</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="export-section glass">
+                            <h3>📤 ייצוא וגיבוי</h3>
+                            <div class="export-buttons">
+                                <button id="exportAllBtn" class="btn-secondary">📦 ייצא גיבוי מלא</button>
+                                <button id="exportQuestionsOnlyBtn" class="btn-secondary">📄 ייצא שאלות בלבד</button>
+                            </div>
+                        </div>
+
+                        <div class="danger-zone glass">
+                            <h3>⚠️ אזור סכנה</h3>
+                            <button id="resetBankBtn" class="btn-ghost danger">איפוס מאגר שאלות</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS SCREEN -->
+            <div id="settingsScreen" class="screen">
+                <div class="settings-content">
+                    <div class="settings-section glass">
+                        <h3>🎨 תצוגה</h3>
+                        <div class="setting-item">
+                            <label>ערכת נושא</label>
+                            <button id="themeToggleSettings" class="btn-secondary btn-sm">מצב בהיר</button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section glass">
+                        <h3>📚 הגדרות לימוד</h3>
+                        <div class="setting-item">
+                            <label for="questionsPerSession">שאלות בסשן Smart Tutor</label>
+                            <select id="questionsPerSession">
+                                <option value="10">10 שאלות</option>
+                                <option value="20" selected>20 שאלות</option>
+                                <option value="30">30 שאלות</option>
+                                <option value="50">50 שאלות</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="showExplanation">הצג הסבר אחרי כל שאלה</label>
+                            <input type="checkbox" id="showExplanation" checked>
+                        </div>
+                    </div>
+
+                    <div class="settings-section glass">
+                        <h3>⏱️ מבחן מדמה</h3>
+                        <div class="setting-item">
+                            <label for="examQuestions">מספר שאלות במבחן</label>
+                            <select id="examQuestions">
+                                <option value="30">30 שאלות</option>
+                                <option value="50" selected>50 שאלות</option>
+                                <option value="70">70 שאלות</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="examTime">זמן למבחן (דקות)</label>
+                            <select id="examTime">
+                                <option value="30">30 דקות</option>
+                                <option value="45" selected>45 דקות</option>
+                                <option value="60">60 דקות</option>
+                                <option value="90">90 דקות</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section glass">
+                        <h3>💾 נתונים</h3>
+                        <div class="setting-item">
+                            <button id="exportProgress" class="btn-secondary">ייצא התקדמות</button>
+                        </div>
+                        <div class="setting-item">
+                            <button id="importProgressBtn" class="btn-secondary">ייבא התקדמות</button>
+                            <input type="file" id="importProgressFile" accept=".json" class="hidden">
+                        </div>
+                        <div class="setting-item">
+                            <button id="resetProgress" class="btn-ghost danger">אפס התקדמות</button>
+                        </div>
+                        <div class="setting-item">
+                            <button id="resetGamification" class="btn-ghost danger">אפס XP והישגים</button>
+                        </div>
+                        <div class="setting-item">
+                            <button id="resetAll" class="btn-ghost danger">אפס הכל</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section glass">
+                        <h3>🔧 תחזוקה</h3>
+                        <div class="setting-item">
+                            <label>ניקוי Cache</label>
+                            <button id="clearCacheBtn" class="btn-secondary btn-sm">נקה Cache</button>
+                        </div>
+                        <div class="setting-item">
+                            <label>איפוס Service Worker</label>
+                            <button id="resetSWBtn" class="btn-ghost btn-sm danger">אפס SW + Cache</button>
+                        </div>
+                        <p class="setting-hint">השתמש באפשרויות אלו אם האפליקציה לא עובדת כראוי</p>
+                    </div>
+
+                    <div class="settings-section glass">
+                        <h3>🔐 גישה ל-CMS</h3>
+                        <div id="cmsLockSection">
+                            <div class="setting-item">
+                                <label for="cmsPassword">סיסמת עריכה</label>
+                                <input type="password" id="cmsPassword" placeholder="הכנס סיסמה">
+                                <button id="unlockCms" class="btn-secondary btn-sm">פתח</button>
+                            </div>
+                            <p class="setting-hint">סיסמה: <code>skymind</code></p>
+                        </div>
+                        <div id="cmsUnlockedSection" class="hidden">
+                            <p class="success-text">✅ CMS פתוח</p>
+                            <button id="lockCms" class="btn-ghost btn-sm">נעל CMS</button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section glass diagnostics-section" id="diagnosticsSection">
+                        <h3 id="diagnosticsTitle">ℹ️ מידע</h3>
+                        <div id="diagnostics" class="diagnostics">
+                            <p>גרסה: <strong id="diagVersion">3.0.0</strong></p>
+                            <p>שאלות: <strong id="diagQuestionCount">0</strong></p>
+                            <p>נושאים: <strong id="diagTopicCount">0</strong></p>
+                            <p>התקדמות: <strong id="diagProgressCount">0</strong></p>
+                        </div>
+                        <div id="devTools" class="dev-tools hidden">
+                            <h4>כלי מפתח</h4>
+                            <button id="validateBankBtn" class="btn-ghost btn-sm">בדוק מאגר</button>
+                            <button id="rebuildIndexBtn" class="btn-ghost btn-sm">בנה אינדקסים</button>
+                            <button id="genTestDataBtn" class="btn-ghost btn-sm">צור נתוני בדיקה</button>
+                            <button id="showLogsBtn" class="btn-ghost btn-sm">הצג לוגים</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ==================== BOTTOM NAVIGATION ==================== -->
+        <nav id="bottomNav" class="bottom-nav hidden">
+            <button class="nav-item active" data-screen="homeScreen">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">בית</span>
+            </button>
+            <button class="nav-item" data-screen="insightsScreen">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">תובנות</span>
+            </button>
+            <button class="nav-item" data-screen="achievementsScreen">
+                <span class="nav-icon">🏆</span>
+                <span class="nav-label">הישגים</span>
+            </button>
+            <button class="nav-item" data-screen="cmsScreen">
+                <span class="nav-icon">✏️</span>
+                <span class="nav-label">CMS</span>
+            </button>
+            <button class="nav-item" data-screen="settingsScreen">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">הגדרות</span>
+            </button>
+        </nav>
+
+        <!-- ==================== MODALS ==================== -->
+        
+        <!-- Question Editor Modal -->
+        <div id="editorModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content editor-modal">
+                <div class="modal-header">
+                    <h3 id="editorTitle">עריכת שאלה</h3>
+                    <button class="close-modal-btn">×</button>
+                </div>
+                <form id="questionForm" class="question-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editId">מזהה</label>
+                            <input type="text" id="editId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSource">מקור</label>
+                            <input type="text" id="editSource" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editMainTopic">נושא ראשי</label>
+                            <input type="text" id="editMainTopic" list="mainTopicsList" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSubTopic">נושא משני / תגיות</label>
+                            <input type="text" id="editSubTopic">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editQuestion">שאלה</label>
+                        <textarea id="editQuestion" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>תשובות (בחר את הנכונה)</label>
+                        <div id="choicesEditor" class="choices-editor"></div>
+                        <button type="button" id="addChoiceBtn" class="btn-ghost btn-sm">+ הוסף תשובה</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="editExplanation">הסבר</label>
+                        <textarea id="editExplanation" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editNeedsReview">
+                            <span>⚠️ דורש בדיקה</span>
+                        </label>
+                    </div>
+                    <div class="form-group raw-block-section hidden">
+                        <label>טקסט גולמי (לייחוס)</label>
+                        <pre id="editRawBlock" class="raw-block-display"></pre>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="duplicateQuestionBtn" class="btn-ghost">שכפל</button>
+                        <button type="button" id="deleteQuestionBtn" class="btn-ghost danger">מחק</button>
+                        <div class="form-actions-right">
+                            <button type="button" class="btn-ghost cancel-btn">ביטול</button>
+                            <button type="submit" class="btn-primary">שמור</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <datalist id="mainTopicsList"></datalist>
+
+        <!-- Topic Editor Modal -->
+        <div id="topicEditorModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content small-modal">
+                <div class="modal-header">
+                    <h3>עריכת נושא</h3>
+                    <button class="close-modal-btn">×</button>
+                </div>
+                <div class="topic-editor-form">
+                    <div class="form-group">
+                        <label>שם נושא נוכחי</label>
+                        <input type="text" id="currentTopicName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="newTopicName">שם חדש</label>
+                        <input type="text" id="newTopicName">
+                    </div>
+                    <div class="topic-actions">
+                        <button id="renameTopicBtn" class="btn-primary">שנה שם</button>
+                        <button id="mergeTopicBtn" class="btn-secondary">מזג לנושא אחר</button>
+                        <button id="deleteTopicBtn" class="btn-ghost danger">מחק נושא</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Merge Topic Modal -->
+        <div id="mergeTopicModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content small-modal">
+                <div class="modal-header">
+                    <h3>מיזוג נושאים</h3>
+                    <button class="close-modal-btn">×</button>
+                </div>
+                <div class="merge-form">
+                    <p>מזג את <strong id="mergeSourceTopic"></strong> ל:</p>
+                    <select id="mergeTargetTopic" class="full-width">
+                        <option value="">בחר נושא יעד</option>
+                    </select>
+                    <div class="form-actions">
+                        <button class="btn-ghost cancel-btn">ביטול</button>
+                        <button id="confirmMergeBtn" class="btn-primary">מזג</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Mode Modal -->
+        <div id="topicModeModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>בחר מצב תרגול</h3>
+                    <button class="close-modal-btn">×</button>
+                </div>
+                <div class="topic-mode-content">
+                    <div class="topic-mode-header">
+                        <h4 id="modeTopicName"></h4>
+                        <div id="modeTopicStats" class="topic-mode-stats"></div>
+                    </div>
+                    <div class="topic-mode-options">
+                        <button class="topic-mode-btn" onclick="startTopicMode('normal')">
+                            <span class="mode-icon">📝</span>
+                            <span class="mode-title">רגיל</span>
+                            <span class="mode-desc">תרגול אקראי מהנושא</span>
+                        </button>
+                        <button class="topic-mode-btn" onclick="startTopicMode('failed')">
+                            <span class="mode-icon">❌</span>
+                            <span class="mode-title">לא הצלחתי</span>
+                            <span class="mode-desc">רק שאלות שטעית בהן</span>
+                        </button>
+                        <button class="topic-mode-btn" onclick="startTopicMode('mastered')">
+                            <span class="mode-icon">✅</span>
+                            <span class="mode-title">הצלחתי</span>
+                            <span class="mode-desc">חזרה על שאלות ששלטת בהן</span>
+                        </button>
+                        <button class="topic-mode-btn primary" onclick="startTopicMode('infinite')">
+                            <span class="mode-icon">♾️</span>
+                            <span class="mode-title">מצב אינסופי</span>
+                            <span class="mode-desc">תרגל עד שתשלוט בכל השאלות</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Modal -->
+        <div id="confirmModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content small-modal">
+                <div class="modal-header">
+                    <h3 id="confirmTitle">אישור</h3>
+                    <button class="close-modal-btn">×</button>
+                </div>
+                <div class="confirm-body">
+                    <p id="confirmMessage"></p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-ghost cancel-btn">ביטול</button>
+                    <button id="confirmActionBtn" class="btn-primary">אישור</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Modal -->
+        <div id="aboutModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content about-content glass">
+                <button class="close-modal-btn">×</button>
+                <div class="about-header">
+                    <svg viewBox="0 0 100 100" class="about-logo">
+                        <circle cx="50" cy="50" r="8" fill="var(--accent-primary)"/>
+                        <line x1="50" y1="50" x2="20" y2="20" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <line x1="50" y1="50" x2="80" y2="20" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <line x1="50" y1="50" x2="20" y2="80" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <line x1="50" y1="50" x2="80" y2="80" stroke="var(--accent-primary)" stroke-width="3"/>
+                        <circle cx="20" cy="20" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2"/>
+                        <circle cx="80" cy="20" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2"/>
+                        <circle cx="20" cy="80" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2"/>
+                        <circle cx="80" cy="80" r="12" fill="none" stroke="var(--accent-secondary)" stroke-width="2"/>
+                    </svg>
+                    <h2>SkyMind</h2>
+                    <p>גרסה 3.2.0</p>
+                </div>
+                <div class="about-body">
+                    <p>אפליקציית לימוד חכמה להכנה לרישיון רחפנים בישראל.</p>
+                    <p>משתמשת באלגוריתם Spaced Repetition ללימוד יעיל.</p>
+                    <h4>פיצ'רים:</h4>
+                    <ul>
+                        <li>🧠 Smart Tutor עם חזרות מרווחות</li>
+                        <li>📊 תובנות וסטטיסטיקות מפורטות</li>
+                        <li>🏆 מערכת הישגים ו-XP</li>
+                        <li>⏱️ מעקב זמן לימוד</li>
+                        <li>🔥 מערכת רצפים</li>
+                        <li>✏️ CMS מובנה לעריכת שאלות</li>
+                        <li>📱 PWA - עובד גם אופליין</li>
+                        <li>🌙 מצב כהה ובהיר</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/state.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/sr.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/cms.js"></script>
+    <script src="js/importer.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

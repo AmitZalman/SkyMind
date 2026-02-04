@@ -1,0 +1,210 @@
+[
+  {
+    "id": "first_blood",
+    "name": "צעד ראשון",
+    "description": "ענה נכון על שאלה אחת",
+    "icon": "🎯",
+    "category": "beginner",
+    "xpBonus": 25
+  },
+  {
+    "id": "first_10",
+    "name": "התחלה טובה",
+    "description": "ענה על 10 שאלות",
+    "icon": "📝",
+    "category": "beginner",
+    "xpBonus": 50
+  },
+  {
+    "id": "correct_50",
+    "name": "חמישים נכונות",
+    "description": "ענה נכון על 50 שאלות",
+    "icon": "✅",
+    "category": "progress",
+    "xpBonus": 100
+  },
+  {
+    "id": "correct_100",
+    "name": "מאה אחוז",
+    "description": "ענה נכון על 100 שאלות",
+    "icon": "💯",
+    "category": "progress",
+    "xpBonus": 200
+  },
+  {
+    "id": "correct_500",
+    "name": "מומחה",
+    "description": "ענה נכון על 500 שאלות",
+    "icon": "🧠",
+    "category": "progress",
+    "xpBonus": 500
+  },
+  {
+    "id": "correct_1000",
+    "name": "אלוף",
+    "description": "ענה נכון על 1000 שאלות",
+    "icon": "👑",
+    "category": "progress",
+    "xpBonus": 1000
+  },
+  {
+    "id": "streak_3",
+    "name": "שלושה בשורה",
+    "description": "למד 3 ימים רצופים",
+    "icon": "🔥",
+    "category": "streak",
+    "xpBonus": 75
+  },
+  {
+    "id": "streak_7",
+    "name": "שבוע מושלם",
+    "description": "למד 7 ימים רצופים",
+    "icon": "🌟",
+    "category": "streak",
+    "xpBonus": 150
+  },
+  {
+    "id": "streak_30",
+    "name": "חודש של התמדה",
+    "description": "למד 30 ימים רצופים",
+    "icon": "🏆",
+    "category": "streak",
+    "xpBonus": 500
+  },
+  {
+    "id": "xp_1000",
+    "name": "אלף נקודות",
+    "description": "צבור 1000 XP",
+    "icon": "⭐",
+    "category": "xp",
+    "xpBonus": 100
+  },
+  {
+    "id": "xp_5000",
+    "name": "חמשת אלפים",
+    "description": "צבור 5000 XP",
+    "icon": "💫",
+    "category": "xp",
+    "xpBonus": 250
+  },
+  {
+    "id": "xp_10000",
+    "name": "עשרת אלפים",
+    "description": "צבור 10000 XP",
+    "icon": "🌠",
+    "category": "xp",
+    "xpBonus": 500
+  },
+  {
+    "id": "study_60",
+    "name": "שעה של לימוד",
+    "description": "למד במצטבר שעה",
+    "icon": "⏰",
+    "category": "time",
+    "xpBonus": 100
+  },
+  {
+    "id": "study_300",
+    "name": "חמש שעות",
+    "description": "למד במצטבר 5 שעות",
+    "icon": "📚",
+    "category": "time",
+    "xpBonus": 300
+  },
+  {
+    "id": "session_streak_5",
+    "name": "צלף",
+    "description": "5 תשובות נכונות ברצף בסשן",
+    "icon": "🎯",
+    "category": "session",
+    "xpBonus": 50
+  },
+  {
+    "id": "session_streak_10",
+    "name": "סנייפר",
+    "description": "10 תשובות נכונות ברצף בסשן",
+    "icon": "🔫",
+    "category": "session",
+    "xpBonus": 100
+  },
+  {
+    "id": "session_streak_20",
+    "name": "בלתי ניתן לעצירה",
+    "description": "20 תשובות נכונות ברצף בסשן",
+    "icon": "💥",
+    "category": "session",
+    "xpBonus": 200
+  },
+  {
+    "id": "exam_pass",
+    "name": "עובר מבחן",
+    "description": "עבור מבחן מדמה עם 60% לפחות",
+    "icon": "📋",
+    "category": "exam",
+    "xpBonus": 150
+  },
+  {
+    "id": "exam_hero",
+    "name": "גיבור מבחן",
+    "description": "עבור מבחן מדמה עם 80% לפחות",
+    "icon": "🎖️",
+    "category": "exam",
+    "xpBonus": 300
+  },
+  {
+    "id": "exam_perfect",
+    "name": "מושלם",
+    "description": "קבל 100% במבחן מדמה",
+    "icon": "💎",
+    "category": "exam",
+    "xpBonus": 500
+  },
+  {
+    "id": "topic_master",
+    "name": "שליטה בנושא",
+    "description": "השג 80% דיוק בנושא עם לפחות 10 ניסיונות",
+    "icon": "📖",
+    "category": "mastery",
+    "xpBonus": 200
+  },
+  {
+    "id": "all_topics",
+    "name": "סקרן",
+    "description": "ענה על לפחות שאלה אחת מכל נושא",
+    "icon": "🗺️",
+    "category": "mastery",
+    "xpBonus": 150
+  },
+  {
+    "id": "topic_complete",
+    "name": "סיום נושא",
+    "description": "סיים מצב אינסופי בנושא",
+    "icon": "✨",
+    "category": "mastery",
+    "xpBonus": 250
+  },
+  {
+    "id": "night_owl",
+    "name": "ינשוף לילה",
+    "description": "ענה על 20 שאלות אחרי חצות",
+    "icon": "🦉",
+    "category": "special",
+    "xpBonus": 100
+  },
+  {
+    "id": "early_bird",
+    "name": "ציפור מוקדמת",
+    "description": "למד לפני השעה 6 בבוקר",
+    "icon": "🐦",
+    "category": "special",
+    "xpBonus": 100
+  },
+  {
+    "id": "comeback",
+    "name": "חזרה מנצחת",
+    "description": "חזור ללמוד אחרי הפסקה של שבוע",
+    "icon": "💪",
+    "category": "special",
+    "xpBonus": 75
+  }
+]

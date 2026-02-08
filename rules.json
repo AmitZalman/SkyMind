@@ -1,0 +1,13 @@
+{
+  "actions": [
+    {
+      "type": "text_replace",
+      "name": "fix_typos",
+      "where": {},
+      "target": ["questionText", "explanation", "choices"],
+      "replacements": [
+        { "from": "מטאורולי", "to": "מטאורולוגי" }
+      ]
+    }
+  ]
+}

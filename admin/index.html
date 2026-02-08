@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SkyMind Admin</title>
+  <style>
+    body{font-family:system-ui,Arial; margin:0; background:#0b0f14; color:#e6edf3;}
+    header{padding:14px 18px; border-bottom:1px solid #1f2a37; display:flex; gap:12px; align-items:center;}
+    .wrap{display:grid; grid-template-columns: 320px 1fr; height: calc(100vh - 56px);}
+    aside{border-left:1px solid #1f2a37; padding:14px; overflow:auto;}
+    main{padding:14px; overflow:auto;}
+    input,button,textarea,select{background:#0f172a; color:#e6edf3; border:1px solid #243244; border-radius:10px; padding:10px;}
+    button{cursor:pointer;}
+    button.primary{background:#1f6feb; border-color:#1f6feb;}
+    button.danger{background:#b42318; border-color:#b42318;}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .muted{color:#9aa4b2; font-size:12px;}
+    .file{padding:8px 10px; border:1px solid #243244; border-radius:10px; margin:6px 0; cursor:pointer;}
+    .file:hover{border-color:#3b82f6;}
+    .file.active{border-color:#3b82f6; background:#0f1b33;}
+    textarea{width:100%; min-height: 65vh; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;}
+    .pill{font-size:12px; padding:4px 10px; border:1px solid #243244; border-radius:999px;}
+    .ok{border-color:#2ea043; color:#2ea043;}
+    .bad{border-color:#f85149; color:#f85149;}
+  </style>
+</head>
+<body>
+<header>
+  <strong>SkyMind Admin</strong>
+  <span class="pill" id="statusPill">מנותק</span>
+  <span class="muted" id="statusText">הכנס Token כדי להתחבר</span>
+</header>
+
+<div class="wrap">
+  <aside>
+    <div class="row" style="margin-bottom:10px">
+      <input id="token" type="password" placeholder="הדבק GitHub Token כאן" style="flex:1"/>
+      <button class="primary" id="connectBtn">התחבר</button>
+      <button id="forgetBtn" class="danger">שכח</button>
+      <div class="muted" style="width:100%">נשמר רק ל־session (נמחק כשסוגרים טאב).</div>
+    </div>
+
+    <div class="row" style="margin:14px 0 8px">
+      <select id="pathSelect">
+        <option value="">Root</option>
+        <option value="data">data/</option>
+        <option value="admin">admin/</option>
+        <option value=".github/workflows">.github/workflows/</option>
+      </select>
+      <button id="refreshBtn">רענן</button>
+    </div>
+
+    <div id="fileList"></div>
+  </aside>
+
+  <main>
+    <div class="row" style="margin-bottom:10px">
+      <div class="pill" id="currentFilePill">לא נבחר קובץ</div>
+      <input id="commitMsg" placeholder="Commit message (לדוגמה: Update questions)" style="flex:1; min-width:260px"/>
+      <button class="primary" id="saveBtn" disabled>Commit & Push</button>
+    </div>
+
+    <div class="muted" id="metaLine"></div>
+    <div style="margin-top:10px">
+      <textarea id="editor" placeholder="בחר קובץ לעריכה..." spellcheck="false"></textarea>
+    </div>
+  </main>
+</div>
+
+<script>
+  const OWNER = "AmitZalman";
+  const REPO  = "SkyMind";
+  const BRANCH = "main";
+
+  let token = "";
+  let currentPath = "";
+  let currentSha = "";
+  let currentContent = "";
+  let currentIsText = true;
+
+  const el = (id) => document.getElementById(id);
+
+  function setStatus(ok, text) {
+    el("statusPill").textContent = ok ? "מחובר" : "מנותק";
+    el("statusPill").className = "pill " + (ok ? "ok" : "bad");
+    el("statusText").textContent = text || "";
+  }
+
+  function saveTokenToSession(t) { sessionStorage.setItem("SKYMIND_ADMIN_TOKEN", t); }
+  function loadTokenFromSession() { return sessionStorage.getItem("SKYMIND_ADMIN_TOKEN") || ""; }
+  function forgetToken() { sessionStorage.removeItem("SKYMIND_ADMIN_TOKEN"); }
+
+  async function gh(url, opts = {}) {
+    const headers = opts.headers || {};
+    headers["Accept"] = "application/vnd.github+json";
+    if (token) headers["Authorization"] = "Bearer " + token;
+    opts.headers = headers;
+    const res = await fetch(url, opts);
+    const text = await res.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+    if (!res.ok) throw new Error((data && data.message ? data.message : "GitHub API error") + " (HTTP " + res.status + ")");
+    return data;
+  }
+
+  function b64encodeUtf8(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64decodeUtf8(b64) { return decodeURIComponent(escape(atob(b64))); }
+
+  async function testAuth() {
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}`;
+    const data = await gh(url);
+    return !!data?.full_name;
+  }
+
+  async function listDir(path="") {
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+    const items = await gh(url);
+    return items.filter(x => x.type === "file").sort((a,b)=>a.name.localeCompare(b.name));
+  }
+
+  function renderFiles(files) {
+    const box = el("fileList");
+    box.innerHTML = "";
+    if (!files.length) { box.innerHTML = `<div class="muted">אין קבצים בתיקייה הזאת.</div>`; return; }
+    for (const f of files) {
+      const div = document.createElement("div");
+      div.className = "file";
+      div.textContent = f.name;
+      div.onclick = () => openFile(f.path, div);
+      box.appendChild(div);
+    }
+  }
+
+  async function refreshList() {
+    const folder = el("pathSelect").value;
+    const files = await listDir(folder);
+    renderFiles(files);
+  }
+
+  async function openFile(path, node) {
+    document.querySelectorAll(".file").forEach(x => x.classList.remove("active"));
+    node?.classList.add("active");
+
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+    const data = await gh(url);
+    currentPath = data.path;
+    currentSha = data.sha;
+
+    if (!data.content) {
+      currentIsText = false;
+      currentContent = "";
+      el("editor").value = "";
+      el("metaLine").textContent = "הקובץ גדול/בינארי (GitHub API לא החזיר content).";
+      el("currentFilePill").textContent = currentPath;
+      el("saveBtn").disabled = true;
+      return;
+    }
+
+    const decoded = b64decodeUtf8(data.content.replace(/\n/g,""));
+    currentIsText = true;
+    currentContent = decoded;
+
+    el("editor").value = decoded;
+    el("metaLine").textContent = `path: ${currentPath} | sha: ${currentSha.slice(0,7)} | size: ${data.size} bytes`;
+    el("currentFilePill").textContent = currentPath;
+    el("saveBtn").disabled = false;
+  }
+
+  async function commitFile() {
+    if (!currentPath || !currentIsText) return;
+
+    const newContent = el("editor").value;
+    if (newContent === currentContent) { alert("אין שינוי בקובץ."); return; }
+
+    if (currentPath.endsWith(".json")) {
+      try { JSON.parse(newContent); } catch (e) { alert("JSON לא תקין: " + e.message); return; }
+    }
+
+    const msg = el("commitMsg").value.trim() || ("Update " + currentPath);
+    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${currentPath}`;
+    const body = { message: msg, content: b64encodeUtf8(newContent), sha: currentSha, branch: BRANCH };
+
+    el("saveBtn").disabled = true;
+    el("saveBtn").textContent = "שומר...";
+    try {
+      const res = await gh(url, { method:"PUT", body: JSON.stringify(body) });
+      currentSha = res.content.sha;
+      currentContent = newContent;
+      el("metaLine").textContent = `path: ${currentPath} | sha: ${currentSha.slice(0,7)} | saved ✅`;
+      alert("נשמר! נוצר commit בריפו.");
+    } finally {
+      el("saveBtn").disabled = false;
+      el("saveBtn").textContent = "Commit & Push";
+    }
+  }
+
+  el("connectBtn").onclick = async () => {
+    token = el("token").value.trim();
+    if (!token) return alert("הדבק token קודם.");
+    try {
+      await testAuth();
+      saveTokenToSession(token);
+      setStatus(true, "מחובר. אפשר לערוך ולבצע commits.");
+      await refreshList();
+    } catch (e) {
+      setStatus(false, "Token לא תקין או אין הרשאות.");
+      alert("שגיאה: " + e.message);
+    }
+  };
+
+  el("forgetBtn").onclick = () => {
+    forgetToken();
+    token = "";
+    el("token").value = "";
+    setStatus(false, "נמחק token מה-session.");
+    el("fileList").innerHTML = "";
+    el("editor").value = "";
+    el("saveBtn").disabled = true;
+    el("currentFilePill").textContent = "לא נבחר קובץ";
+    el("metaLine").textContent = "";
+  };
+
+  el("refreshBtn").onclick = refreshList;
+  el("saveBtn").onclick = commitFile;
+
+  (async function init(){
+    const t = loadTokenFromSession();
+    if (t) {
+      token = t;
+      el("token").value = t;
+      try { await testAuth(); setStatus(true, "מחובר (session)."); await refreshList(); }
+      catch { setStatus(false, "Token שמור לא עובד. הדבק שוב."); }
+    } else {
+      setStatus(false, "הכנס Token כדי להתחבר");
+    }
+  })();
+</script>
+</body>
+</html>

@@ -152,8 +152,14 @@ function loadQuestions() {
         
         // Try to fetch from server
         updateBootStatus('loading', 'טוען מהשרת...');
-        
-        fetch('data/questions.json')
+
+        fetch('data/version.json?v=' + Date.now())
+            .then(r => r.ok ? r.json() : null)
+            .catch(() => null)
+            .then(ver => {
+                var cacheBust = (ver && ver.updatedAt) ? ver.updatedAt : Date.now();
+                return fetch('data/questions.json?v=' + cacheBust);
+            })
             .then(response => {
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 return response.json();

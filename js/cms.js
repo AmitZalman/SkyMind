@@ -625,6 +625,146 @@ function resetAll() {
     });
 }
 
+// ==================== GITHUB COMMIT ====================
+const GH_OWNER = 'AmitZalman';
+const GH_REPO = 'SkyMind';
+const GH_BRANCH = 'main';
+const GH_TOKEN_KEY = 'SKYMIND_CMS_GH_TOKEN';
+
+function b64encodeUtf8(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function ghApi(path, token, opts) {
+    opts = opts || {};
+    var headers = opts.headers || {};
+    headers['Accept'] = 'application/vnd.github+json';
+    headers['Authorization'] = 'Bearer ' + token;
+    if (opts.body) headers['Content-Type'] = 'application/json';
+    opts.headers = headers;
+    return fetch('https://api.github.com' + path, opts).then(function(res) {
+        return res.text().then(function(text) {
+            var data = null;
+            try { data = text ? JSON.parse(text) : null; } catch(e) { data = text; }
+            if (!res.ok) {
+                var msg = (data && data.message) ? data.message : 'GitHub API error';
+                var err = new Error(msg + ' (HTTP ' + res.status + ')');
+                err.status = res.status;
+                throw err;
+            }
+            return data;
+        });
+    });
+}
+
+function getFileSha(filePath, token) {
+    return ghApi('/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + filePath + '?ref=' + GH_BRANCH, token)
+        .then(function(data) { return data.sha; })
+        .catch(function(err) {
+            if (err.status === 404) return null;
+            throw err;
+        });
+}
+
+function putFile(filePath, content, sha, message, token) {
+    var body = {
+        message: message,
+        content: b64encodeUtf8(content),
+        branch: GH_BRANCH
+    };
+    if (sha) body.sha = sha;
+    return ghApi('/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + filePath, token, {
+        method: 'PUT',
+        body: JSON.stringify(body)
+    });
+}
+
+function putFileWithRetry(filePath, content, sha, message, token) {
+    return putFile(filePath, content, sha, message, token)
+        .catch(function(err) {
+            if (err.status === 409) {
+                return getFileSha(filePath, token).then(function(freshSha) {
+                    return putFile(filePath, content, freshSha, message, token);
+                });
+            }
+            if (err.status === 401) throw new Error('Token לא תקין (401)');
+            if (err.status === 403) throw new Error('אין הרשאות מספיקות ל-repo (403)');
+            throw err;
+        });
+}
+
+function showGithubCommitModal() {
+    var tokenInput = $('ghToken');
+    var saved = sessionStorage.getItem(GH_TOKEN_KEY);
+    if (saved && tokenInput) tokenInput.value = saved;
+    var statusEl = $('ghCommitStatus');
+    if (statusEl) statusEl.textContent = '';
+    var commitBtn = $('ghCommitBtn');
+    if (commitBtn) { commitBtn.disabled = false; commitBtn.textContent = 'Commit'; }
+    showModal('githubCommitModal');
+}
+
+function commitToGitHub() {
+    var tokenInput = $('ghToken');
+    var msgInput = $('ghCommitMsg');
+    var rememberCb = $('ghRememberToken');
+    var statusEl = $('ghCommitStatus');
+    var commitBtn = $('ghCommitBtn');
+
+    var token = tokenInput ? tokenInput.value.trim() : '';
+    var message = msgInput ? msgInput.value.trim() : '';
+    if (!message) message = 'Update questions via CMS';
+    if (!token) { showToast('נא להזין GitHub Token', 'error'); return; }
+
+    if (rememberCb && rememberCb.checked) {
+        sessionStorage.setItem(GH_TOKEN_KEY, token);
+    }
+
+    if (commitBtn) { commitBtn.disabled = true; commitBtn.textContent = 'שולח...'; }
+    function setStatus(text) { if (statusEl) statusEl.textContent = text; }
+
+    var sourceContent = JSON.stringify(state.questions, null, 2);
+    var questionsContent = sourceContent;
+    var now = Date.now();
+    var versionContent = JSON.stringify({
+        updatedAt: now,
+        version: APP_VERSION,
+        questionsCount: state.questions.length
+    }, null, 2);
+
+    setStatus('מביא SHA של קבצים...');
+
+    Promise.all([
+        getFileSha('data/questions.source.json', token),
+        getFileSha('data/questions.json', token),
+        getFileSha('data/version.json', token)
+    ])
+    .then(function(shas) {
+        setStatus('שומר questions.source.json...');
+        return putFileWithRetry('data/questions.source.json', sourceContent, shas[0], message + ' [source]', token)
+            .then(function() {
+                setStatus('שומר questions.json...');
+                return putFileWithRetry('data/questions.json', questionsContent, shas[1], message, token);
+            })
+            .then(function() {
+                setStatus('שומר version.json...');
+                return putFileWithRetry('data/version.json', versionContent, shas[2], message + ' [version]', token);
+            });
+    })
+    .then(function() {
+        setStatus('');
+        hideModal('githubCommitModal');
+        showToast('נשמר ב-GitHub בהצלחה!', 'success');
+    })
+    .catch(function(err) {
+        setStatus('שגיאה: ' + err.message);
+        showToast('שגיאה: ' + err.message, 'error');
+    })
+    .finally(function() {
+        if (commitBtn) { commitBtn.disabled = false; commitBtn.textContent = 'Commit'; }
+    });
+}
+
 // Export
 window.updateCMSView = updateCMSView;
 window.switchCMSTab = switchCMSTab;
@@ -652,3 +792,5 @@ window.resetQuestionBank = resetQuestionBank;
 window.resetProgress = resetProgress;
 window.resetGamification = resetGamification;
 window.resetAll = resetAll;
+window.showGithubCommitModal = showGithubCommitModal;
+window.commitToGitHub = commitToGitHub;

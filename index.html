@@ -422,6 +422,7 @@
                         <div class="cms-toolbar glass">
                             <button id="addQuestionBtn" class="btn-primary btn-sm">+ הוסף שאלה</button>
                             <button id="exportQuestionsBtn" class="btn-secondary btn-sm">📤 ייצא JSON</button>
+                            <button id="commitToGithubBtn" class="btn-secondary btn-sm">🔄 Commit ל-GitHub</button>
                         </div>
                         <div class="cms-filters glass">
                             <select id="cmsTopicFilter">
@@ -821,6 +822,36 @@
                 <div class="form-actions">
                     <button class="btn-ghost cancel-btn">ביטול</button>
                     <button id="confirmActionBtn" class="btn-primary">אישור</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub Commit Modal -->
+        <div id="githubCommitModal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content small-modal">
+                <div class="modal-header">
+                    <h3>🔄 Commit ל-GitHub</h3>
+                    <button class="close-modal-btn">×</button>
+                </div>
+                <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                        <label for="ghToken">GitHub Token</label>
+                        <input type="password" id="ghToken" placeholder="ghp_... (fine-grained / classic)">
+                    </div>
+                    <label class="checkbox-label" style="font-size: 13px;">
+                        <input type="checkbox" id="ghRememberToken" checked>
+                        <span>זכור ב-session (נמחק בסגירת טאב)</span>
+                    </label>
+                    <div class="form-group">
+                        <label for="ghCommitMsg">הודעת Commit</label>
+                        <input type="text" id="ghCommitMsg" placeholder="Update questions via CMS">
+                    </div>
+                    <div id="ghCommitStatus" style="font-size: 13px; color: var(--text-muted); min-height: 20px;"></div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-ghost cancel-btn">ביטול</button>
+                    <button id="ghCommitBtn" class="btn-primary">Commit</button>
                 </div>
             </div>
         </div>

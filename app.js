@@ -33,6 +33,62 @@ function clearCacheOnly() {
     }
     showToast('Cache נוקה!', 'success');
 }
+// ======= AUTO UPDATE (VERSION CHECK) =======
+const VERSION_URL = 'version.json';
+const VERSION_KEY = 'skymind_app_version';
+
+async function getRemoteVersion() {
+  const res = await fetch(`${VERSION_URL}?t=${Date.now()}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`version fetch failed: ${res.status}`);
+  const data = await res.json();
+  return String(data.version || '').trim();
+}
+
+function clearQuestionLocalStorage() {
+  // מוחקים רק מפתחות של שאלות/נושאים כדי לא למחוק theme/הישגים וכו'
+  const deletePrefixes = [
+    'skymind_questions',
+    'skymind_topics',
+    'skymind_subtopics',
+    'skymind_questions_v',
+    'skymind_topic'
+  ];
+
+  for (let i = localStorage.length - 1; i >= 0; i--) {
+    const k = localStorage.key(i);
+    if (!k) continue;
+    if (deletePrefixes.some(p => k.startsWith(p))) localStorage.removeItem(k);
+  }
+}
+
+async function applyUpdateIfNeeded() {
+  try {
+    const remote = await getRemoteVersion();
+    if (!remote) return;
+
+    const local = localStorage.getItem(VERSION_KEY);
+
+    if (!local) {
+      localStorage.setItem(VERSION_KEY, remote);
+      return;
+    }
+
+    if (local !== remote) {
+      console.log(`[SkyMind] New version detected: ${local} -> ${remote}`);
+
+      // 1) מוחקים את השאלות/נושאים מהלוקאל כדי לא "להיתקע" על הישן
+      clearQuestionLocalStorage();
+
+      // 2) איפוס SW+Cache (כבר קיים אצלך) ואז Reload
+      resetServiceWorker();
+
+      // 3) שומרים גרסה חדשה כדי למנוע לופ
+      localStorage.setItem(VERSION_KEY, remote);
+    }
+  } catch (e) {
+    console.warn('[SkyMind] version check failed, continuing...', e);
+  }
+}
 
 // ==================== DIAGNOSTICS ====================
 let diagClickCount = 0;
@@ -223,6 +279,7 @@ function setupEventListeners() {
     // CMS Actions
     addClick('addQuestionBtn', () => showEditor());
     addClick('exportQuestionsBtn', exportQuestions);
+    addClick('commitToGithubBtn', showGithubCommitModal);
     
     // CMS Filters
     const cmsTopicFilter = $('cmsTopicFilter');
@@ -397,6 +454,15 @@ function setupEventListeners() {
     
     addClick('confirmActionBtn', handleConfirmAction);
     
+    // GitHub commit modal
+    const githubCommitModal = $('githubCommitModal');
+    if (githubCommitModal) {
+        githubCommitModal.querySelector('.close-modal-btn')?.addEventListener('click', () => hideModal('githubCommitModal'));
+        githubCommitModal.querySelector('.cancel-btn')?.addEventListener('click', () => hideModal('githubCommitModal'));
+        githubCommitModal.querySelector('.modal-overlay')?.addEventListener('click', () => hideModal('githubCommitModal'));
+    }
+    addClick('ghCommitBtn', commitToGitHub);
+
     // About modal
     const aboutModal = $('aboutModal');
     if (aboutModal) {
@@ -491,7 +557,9 @@ function setupEventListeners() {
 }
 
 // ==================== INIT ====================
-function init() {
+
+async function init() {
+    await applyUpdateIfNeeded();
     log('v' + APP_VERSION + ' initializing...');
     
     // Theme
@@ -541,7 +609,7 @@ function init() {
         }, 1000);
         
         // Register service worker
-        if ('serviceWorker' in navigator && location.hostname !== 'localhost' && !location.search.includes('nocache')) {
+        if ('serviceWorker' in navigator && !location.search.includes('nocache')) {
             navigator.serviceWorker.register('sw.js')
                 .then(() => log('SW registered'))
                 .catch(e => log('SW failed: ' + e.message));

@@ -45,21 +45,26 @@ async function getRemoteVersion() {
 }
 
 function clearQuestionLocalStorage() {
-  // מוחקים רק מפתחות של שאלות/נושאים כדי לא למחוק theme/הישגים וכו'
-  const deletePrefixes = [
-    'skymind_questions',
-    'skymind_topics',
-    'skymind_subtopics',
-    'skymind_questions_v',
-    'skymind_topic'
+  // מוחק רק דאטה לימודי (questions/topics/subtopics/cms-cache) ומשאיר theme/unlock וכו'
+  const prefixes = [
+    'skymind_questions_',     // <-- זה המפתח שלך בפועל
+    'skymind_topics_',
+    'skymind_subtopics_',
+    'skymind_questionsByTopic',
+    'skymind_question',
+    'skymind_bank',
+    'skymind_cms_',           // אם יש cache של CMS
   ];
 
   for (let i = localStorage.length - 1; i >= 0; i--) {
     const k = localStorage.key(i);
     if (!k) continue;
-    if (deletePrefixes.some(p => k.startsWith(p))) localStorage.removeItem(k);
+    if (prefixes.some(p => k.startsWith(p))) {
+      localStorage.removeItem(k);
+    }
   }
 }
+
 
 async function applyUpdateIfNeeded() {
   try {

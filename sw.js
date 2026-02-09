@@ -90,7 +90,15 @@ self.addEventListener('activate', event => {
 // Fetch
 self.addEventListener('fetch', event => {
     const url = event.request.url;
-    
+      // Always bypass cache for version.json (critical for updates)
+  try {
+    const u = new URL(event.request.url);
+    if (u.pathname.endsWith('/version.json')) {
+      event.respondWith(fetch(event.request, { cache: 'no-store' }));
+      return;
+    }
+  } catch (e) {}
+
     // Skip non-GET requests
     if (event.request.method !== 'GET') return;
     
@@ -149,18 +157,19 @@ function networkFirst(request) {
 
 // Network-first with fallback (for JSON)
 function networkFirstWithFallback(request) {
+    const cacheKey = new Request(request.url.split('?')[0]);
     return fetch(request)
         .then(response => {
             if (response.ok) {
                 const responseClone = response.clone();
                 caches.open(DYNAMIC_CACHE).then(cache => {
-                    cache.put(request, responseClone);
+                    cache.put(cacheKey, responseClone);
                 });
             }
             return response;
         })
         .catch(() => {
-            return caches.match(request).then(cached => {
+            return caches.match(cacheKey).then(cached => {
                 if (cached) {
                     return cached;
                 }

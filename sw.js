@@ -90,14 +90,28 @@ self.addEventListener('activate', event => {
 // Fetch
 self.addEventListener('fetch', event => {
     const url = event.request.url;
-      // Always bypass cache for version.json (critical for updates)
-  try {
-    const u = new URL(event.request.url);
-    if (u.pathname.endsWith('/version.json')) {
-      event.respondWith(fetch(event.request, { cache: 'no-store' }));
-      return;
-    }
-  } catch (e) {}
+    // Always bypass browser cache for critical data files
+    try {
+        const u = new URL(event.request.url);
+        if (u.pathname.endsWith('/version.json')) {
+            event.respondWith(fetch(event.request, { cache: 'no-store' }));
+            return;
+        }
+        if (u.pathname.endsWith('/questions.json')) {
+            const cacheKey = new Request(u.origin + u.pathname);
+            event.respondWith(
+                fetch(event.request, { cache: 'no-store' })
+                    .then(res => {
+                        if (res.ok) caches.open(DYNAMIC_CACHE).then(c => c.put(cacheKey, res.clone()));
+                        return res;
+                    })
+                    .catch(() => caches.match(cacheKey).then(c => c || new Response('[]', {
+                        status: 200, headers: { 'Content-Type': 'application/json' }
+                    })))
+            );
+            return;
+        }
+    } catch (e) {}
 
     // Skip non-GET requests
     if (event.request.method !== 'GET') return;

@@ -47,6 +47,9 @@ async function getRemoteVersion() {
 function clearQuestionLocalStorage() {
   // מוחק רק דאטה לימודי (questions/topics/subtopics/cms-cache) ומשאיר theme/unlock וכו'
   const prefixes = [
+    'skymind_',
+    'skymin_',
+
     'skymind_questions_',     // <-- זה המפתח שלך בפועל
     'skymind_topics_',
     'skymind_subtopics_',
@@ -82,13 +85,13 @@ async function applyUpdateIfNeeded() {
       console.log(`[SkyMind] New version detected: ${local} -> ${remote}`);
 
       // 1) מוחקים את השאלות/נושאים מהלוקאל כדי לא "להיתקע" על הישן
-      clearQuestionLocalStorage();
+      localStorage.setItem(VERSION_KEY, remote);
 
       // 2) איפוס SW+Cache (כבר קיים אצלך) ואז Reload
-      resetServiceWorker();
+      clearQuestionLocalStorage();
 
       // 3) שומרים גרסה חדשה כדי למנוע לופ
-      localStorage.setItem(VERSION_KEY, remote);
+      resetServiceWorker();
     }
   } catch (e) {
     console.warn('[SkyMind] version check failed, continuing...', e);

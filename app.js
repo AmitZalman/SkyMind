@@ -36,18 +36,31 @@ function clearCacheOnly() {
 // ======= AUTO UPDATE (VERSION CHECK) =======
 const VERSION_URL = 'data/version.json';
 const VERSION_KEY = 'skymind_app_version';
+const VERSION_UPDATED_KEY = 'skymind_app_updatedAt';
+const VERSION_QCOUNT_KEY = 'skymind_app_qcount';
 
 async function getRemoteVersion() {
   const res = await fetch(`${VERSION_URL}?t=${Date.now()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error(`version fetch failed: ${res.status}`);
   const data = await res.json();
-  return String(data.version || '').trim();
+  return {
+    version: String(data.version || '').trim(),
+    updatedAt: data.updatedAt != null ? String(data.updatedAt) : null,
+    questionsCount: data.questionsCount != null ? String(data.questionsCount) : null
+  };
+}
+
+function storeVersionMeta(remote) {
+  localStorage.setItem(VERSION_KEY, remote.version);
+  if (remote.updatedAt != null) localStorage.setItem(VERSION_UPDATED_KEY, remote.updatedAt);
+  if (remote.questionsCount != null) localStorage.setItem(VERSION_QCOUNT_KEY, remote.questionsCount);
 }
 
 function clearQuestionLocalStorage() {
   // מוחק רק דאטה לימודי — שומר theme, settings, cms_unlocked, progress, gamification
   const dataKeys = [
     'skymind_questions_',
+    'skymind_questions',
     'skymind_topics_',
     'skymind_subtopics_',
     'skymind_questionsByTopic',
@@ -69,34 +82,46 @@ function clearQuestionLocalStorage() {
 async function applyUpdateIfNeeded() {
   try {
     const remote = await getRemoteVersion();
-    if (!remote) return;
+    if (!remote || !remote.version) return;
+    console.log('[SkyMind] Remote meta:', remote);
 
-    const local = localStorage.getItem(VERSION_KEY);
+    const localVer = localStorage.getItem(VERSION_KEY);
+    const localUpdated = localStorage.getItem(VERSION_UPDATED_KEY);
+    const localQCount = localStorage.getItem(VERSION_QCOUNT_KEY);
+    console.log('[SkyMind] Local meta:', { version: localVer, updatedAt: localUpdated, qcount: localQCount });
 
-    if (!local) {
-      localStorage.setItem(VERSION_KEY, remote);
+    // First visit — store metadata, no reload needed
+    if (!localVer) {
+      storeVersionMeta(remote);
+      console.log('[SkyMind] First visit, stored version metadata');
       return;
     }
 
-    if (local !== remote) {
-      console.log(`[SkyMind] New version detected: ${local} -> ${remote}`);
+    // Check all integrity conditions
+    const reasons = [];
+    if (localVer !== remote.version) reasons.push(`version: ${localVer} -> ${remote.version}`);
+    if (remote.updatedAt != null && localUpdated !== remote.updatedAt) reasons.push(`updatedAt: ${localUpdated} -> ${remote.updatedAt}`);
+    if (remote.questionsCount != null && localQCount !== remote.questionsCount) reasons.push(`qcount: ${localQCount} -> ${remote.questionsCount}`);
 
-      const guardKey = `skymind_reload_guard_${remote}`;
-      if (sessionStorage.getItem(guardKey)) {
-        console.warn('[SkyMind] Reload guard active, skipping reload');
-        return;
-      }
+    if (reasons.length === 0) return;
 
-      // 1) Clear stale question data from localStorage
-      clearQuestionLocalStorage();
+    console.log(`[SkyMind] Data integrity update needed: ${reasons.join(', ')}`);
 
-      // 2) Set new version AFTER clearing (so it persists through reload)
-      localStorage.setItem(VERSION_KEY, remote);
+    // 1) Always clear stale question data
+    clearQuestionLocalStorage();
 
-      // 3) Reload to fetch fresh data — SW is network-first for JSON, no nuke needed
-      sessionStorage.setItem(guardKey, '1');
-      location.reload();
+    // 2) Always store new metadata
+    storeVersionMeta(remote);
+
+    // 3) Reload once — guard prevents loop
+    const guardKey = `skymind_reload_guard_${remote.version}_${remote.updatedAt}`;
+    if (sessionStorage.getItem(guardKey)) {
+      console.warn('[SkyMind] Reload guard active, skipping reload');
+      return;
     }
+    sessionStorage.setItem(guardKey, '1');
+    console.log('[SkyMind] Reloading to fetch fresh data...');
+    location.reload();
   } catch (e) {
     console.warn('[SkyMind] version check failed, continuing...', e);
   }

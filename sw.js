@@ -5,7 +5,7 @@
  * - Offline fallback from cache
  */
 
-const SW_BUILD = '3.3.1';
+const SW_BUILD = '3.3.2';
 console.log(`[SW] build ${SW_BUILD} loaded`);
 
 const STATIC_CACHE = `skymind-static-${SW_BUILD}`;
@@ -127,7 +127,9 @@ self.addEventListener('fetch', event => {
     } catch (e) {}
 
     // --- Navigation / HTML: network-first ---
+    const dest = event.request.destination;
     const isNav = event.request.mode === 'navigate' ||
+                  dest === 'document' ||
                   (event.request.headers.get('Accept') || '').includes('text/html');
     if (isNav) {
         event.respondWith(
@@ -138,6 +140,8 @@ self.addEventListener('fetch', event => {
                 })
                 .catch(() =>
                     caches.match(event.request)
+                        .then(c => c || caches.match('/SkyMind/'))
+                        .then(c => c || caches.match('/SkyMind/index.html'))
                         .then(c => c || caches.match('./index.html'))
                         .then(c => c || new Response('Offline', { status: 503 }))
                 )
@@ -146,7 +150,7 @@ self.addEventListener('fetch', event => {
     }
 
     // --- App shell JS/CSS: network-first ---
-    if (url.endsWith('.js') || url.endsWith('.css')) {
+    if (dest === 'script' || dest === 'style' || url.endsWith('.js') || url.endsWith('.css')) {
         event.respondWith(
             fetch(event.request, { cache: 'no-store' })
                 .then(res => {

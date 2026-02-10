@@ -254,7 +254,9 @@ function renderTopicsList() {
     if (!container) return;
 
     const meta = state.topicsMeta || {};
-    const order = (meta.mainOrder && meta.mainOrder.length) ? meta.mainOrder : Object.keys(state.questionsByTopic).sort();
+    const metaOrder = (meta.mainOrder && meta.mainOrder.length) ? meta.mainOrder : [];
+    const extraTopics = Object.keys(state.questionsByTopic).sort().filter(t => metaOrder.indexOf(t) < 0);
+    const order = metaOrder.concat(extraTopics);
 
     container.innerHTML = order
         .filter(topic => state.questionsByTopic[topic] && state.questionsByTopic[topic].length)

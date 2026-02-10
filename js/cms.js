@@ -105,13 +105,18 @@ function updateCMSQuestionsList() {
     const start = (page - 1) * pageSize;
     const pageItems = filtered.slice(start, start + pageSize);
     
+    // Track visible IDs for select-all
+    state.cms._visibleIds = filtered.map(q => q.id);
+
     container.innerHTML = pageItems.map(q => {
         const badges = [];
         if (q.needsReview) badges.push('<span class="needs-review-badge">⚠️ לבדיקה</span>');
         if (q.correctIndex === null) badges.push('<span class="missing-correct-badge">❌ חסר תשובה</span>');
-        
+        const checked = state.cms.selected[q.id] ? 'checked' : '';
+
         return `
             <div class="cms-question-item">
+                <input type="checkbox" class="cms-q-check" data-id="${q.id}" ${checked}>
                 <div class="cms-question-content">
                     <div class="cms-question-topic">${escapeHtml(q.mainTopic)}</div>
                     <div class="cms-question-text">${escapeHtml(q.questionText)}</div>
@@ -128,6 +133,8 @@ function updateCMSQuestionsList() {
             </div>
         `;
     }).join('');
+
+    updateBulkBar();
     
     if (pagination) {
         if (totalPages <= 1) {
@@ -765,6 +772,70 @@ function commitToGitHub() {
     });
 }
 
+// ==================== BULK ACTIONS ====================
+function updateBulkBar() {
+    const bar = $('cmsBulkBar');
+    const countEl = $('cmsSelectedCount');
+    const deleteBtn = $('cmsDeleteSelected');
+    const clearBtn = $('cmsClearSelection');
+    const count = Object.keys(state.cms.selected).length;
+
+    if (bar) bar.classList.remove('hidden');
+    if (countEl) countEl.textContent = count ? count + ' נבחרו' : '';
+    if (deleteBtn) deleteBtn.classList.toggle('hidden', count === 0);
+    if (clearBtn) clearBtn.classList.toggle('hidden', count === 0);
+}
+
+function toggleCmsSelect(id, checked) {
+    if (checked) {
+        state.cms.selected[id] = true;
+    } else {
+        delete state.cms.selected[id];
+    }
+    updateBulkBar();
+}
+
+function cmsSelectAll(checked) {
+    var ids = state.cms._visibleIds || [];
+    if (checked) {
+        ids.forEach(function(id) { state.cms.selected[id] = true; });
+    } else {
+        ids.forEach(function(id) { delete state.cms.selected[id]; });
+    }
+    // Update checkboxes on current page
+    var checks = document.querySelectorAll('.cms-q-check');
+    checks.forEach(function(cb) { cb.checked = checked; });
+    updateBulkBar();
+}
+
+function cmsClearSelection() {
+    state.cms.selected = {};
+    var selAll = $('cmsSelectAll');
+    if (selAll) selAll.checked = false;
+    var checks = document.querySelectorAll('.cms-q-check');
+    checks.forEach(function(cb) { cb.checked = false; });
+    updateBulkBar();
+}
+
+function cmsDeleteSelected() {
+    var ids = Object.keys(state.cms.selected);
+    if (!ids.length) return;
+
+    showConfirm('מחיקת ' + ids.length + ' שאלות', 'האם למחוק את ' + ids.length + ' השאלות הנבחרות?', function() {
+        ids.forEach(function(id) {
+            var idx = state.questions.findIndex(function(q) { return q.id === id; });
+            if (idx >= 0) state.questions.splice(idx, 1);
+            if (state.progress[id]) delete state.progress[id];
+        });
+        state.cms.selected = {};
+        buildIndexes();
+        saveQuestions();
+        saveProgress();
+        updateCMSView();
+        showToast(ids.length + ' שאלות נמחקו', 'success');
+    });
+}
+
 // Export
 window.updateCMSView = updateCMSView;
 window.switchCMSTab = switchCMSTab;
@@ -794,3 +865,8 @@ window.resetGamification = resetGamification;
 window.resetAll = resetAll;
 window.showGithubCommitModal = showGithubCommitModal;
 window.commitToGitHub = commitToGitHub;
+window.updateBulkBar = updateBulkBar;
+window.toggleCmsSelect = toggleCmsSelect;
+window.cmsSelectAll = cmsSelectAll;
+window.cmsClearSelection = cmsClearSelection;
+window.cmsDeleteSelected = cmsDeleteSelected;

@@ -34,7 +34,7 @@ function clearCacheOnly() {
     showToast('Cache נוקה!', 'success');
 }
 // ======= AUTO UPDATE (VERSION CHECK) =======
-const VERSION_URL = 'version.json';
+const VERSION_URL = 'data/version.json';
 const VERSION_KEY = 'skymind_app_version';
 
 async function getRemoteVersion() {
@@ -45,24 +45,21 @@ async function getRemoteVersion() {
 }
 
 function clearQuestionLocalStorage() {
-  // מוחק רק דאטה לימודי (questions/topics/subtopics/cms-cache) ומשאיר theme/unlock וכו'
-  const prefixes = [
-    'skymind_',
-    'skymin_',
-
-    'skymind_questions_',     // <-- זה המפתח שלך בפועל
+  // מוחק רק דאטה לימודי — שומר theme, settings, cms_unlocked, progress, gamification
+  const dataKeys = [
+    'skymind_questions_',
     'skymind_topics_',
     'skymind_subtopics_',
     'skymind_questionsByTopic',
     'skymind_question',
     'skymind_bank',
-    'skymind_cms_',           // אם יש cache של CMS
+    'skymind_cms_',
   ];
 
   for (let i = localStorage.length - 1; i >= 0; i--) {
     const k = localStorage.key(i);
     if (!k) continue;
-    if (prefixes.some(p => k.startsWith(p))) {
+    if (dataKeys.some(p => k.startsWith(p))) {
       localStorage.removeItem(k);
     }
   }
@@ -84,14 +81,21 @@ async function applyUpdateIfNeeded() {
     if (local !== remote) {
       console.log(`[SkyMind] New version detected: ${local} -> ${remote}`);
 
-      // 1) מוחקים את השאלות/נושאים מהלוקאל כדי לא "להיתקע" על הישן
-      localStorage.setItem(VERSION_KEY, remote);
+      const guardKey = `skymind_reload_guard_${remote}`;
+      if (sessionStorage.getItem(guardKey)) {
+        console.warn('[SkyMind] Reload guard active, skipping reload');
+        return;
+      }
 
-      // 2) איפוס SW+Cache (כבר קיים אצלך) ואז Reload
+      // 1) Clear stale question data from localStorage
       clearQuestionLocalStorage();
 
-      // 3) שומרים גרסה חדשה כדי למנוע לופ
-      resetServiceWorker();
+      // 2) Set new version AFTER clearing (so it persists through reload)
+      localStorage.setItem(VERSION_KEY, remote);
+
+      // 3) Reload to fetch fresh data — SW is network-first for JSON, no nuke needed
+      sessionStorage.setItem(guardKey, '1');
+      location.reload();
     }
   } catch (e) {
     console.warn('[SkyMind] version check failed, continuing...', e);
@@ -299,13 +303,13 @@ function setupEventListeners() {
     const cmsMissingCorrect = $('cmsMissingCorrect');
     if (cmsMissingCorrect) cmsMissingCorrect.addEventListener('change', updateCMSQuestionsList);
     
-    // CMS List clicks
+    // CMS List clicks + checkbox
     const cmsQuestionsList = $('cmsQuestionsList');
     if (cmsQuestionsList) {
         cmsQuestionsList.addEventListener('click', e => {
             const editBtn = e.target.closest('.cms-btn.edit');
             const deleteBtn = e.target.closest('.cms-btn.delete');
-            
+
             if (editBtn) {
                 const q = state.questionsById[editBtn.dataset.id];
                 if (q) showEditor(q);
@@ -313,6 +317,19 @@ function setupEventListeners() {
                 deleteQuestion(deleteBtn.dataset.id);
             }
         });
+        cmsQuestionsList.addEventListener('change', e => {
+            if (e.target.classList.contains('cms-q-check')) {
+                toggleCmsSelect(e.target.dataset.id, e.target.checked);
+            }
+        });
+    }
+
+    // CMS Bulk actions
+    addClick('cmsDeleteSelected', cmsDeleteSelected);
+    addClick('cmsClearSelection', cmsClearSelection);
+    const cmsSelectAll = $('cmsSelectAll');
+    if (cmsSelectAll) {
+        cmsSelectAll.addEventListener('change', e => window.cmsSelectAll(e.target.checked));
     }
     
     // CMS Pagination

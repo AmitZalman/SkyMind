@@ -208,7 +208,8 @@ const state = {
             needsReview: false
         },
         editingQuestion: null,
-        importPreview: null
+        importPreview: null,
+        selected: {}
     },
     
     // Developer logs

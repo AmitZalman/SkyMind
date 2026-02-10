@@ -33,6 +33,32 @@ function clearCacheOnly() {
     }
     showToast('Cache נוקה!', 'success');
 }
+
+async function forceAppUpdate() {
+    showToast('מעדכן גרסה...', 'info');
+    try {
+        // 1) Delete all skymind caches
+        if ('caches' in window) {
+            const names = await caches.keys();
+            await Promise.all(names.filter(n => n.startsWith('skymind-')).map(n => caches.delete(n)));
+        }
+        // 2) Unregister service worker
+        if ('serviceWorker' in navigator) {
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg) await reg.unregister();
+        }
+        // 3) Clear study data
+        clearQuestionLocalStorage();
+        // 4) Clear version keys so applyUpdateIfNeeded re-syncs
+        localStorage.removeItem(VERSION_KEY);
+        localStorage.removeItem(VERSION_UPDATED_KEY);
+        localStorage.removeItem(VERSION_QCOUNT_KEY);
+    } catch (e) {
+        console.warn('[SkyMind] forceAppUpdate error:', e);
+    }
+    // 5) Hard reload bypassing cache
+    location.href = location.pathname + '?nocache=' + Date.now();
+}
 // ======= AUTO UPDATE (VERSION CHECK) =======
 const VERSION_URL = 'data/version.json';
 const VERSION_KEY = 'skymind_app_version';
@@ -578,6 +604,7 @@ function setupEventListeners() {
     addClick('resetAll', resetAll);
     addClick('clearCacheBtn', clearCacheOnly);
     addClick('resetSWBtn', resetServiceWorker);
+    addClick('forceUpdateBtn', forceAppUpdate);
     
     // Diagnostics
     const diagnosticsTitle = $('diagnosticsTitle');

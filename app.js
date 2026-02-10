@@ -36,28 +36,31 @@ function clearCacheOnly() {
 
 async function forceAppUpdate() {
     showToast('מעדכן גרסה...', 'info');
+
+    // 1) Clear ONLY question data from localStorage
+    clearQuestionLocalStorage();
+
+    // 2) Force version mismatch on next boot
+    localStorage.setItem('skymind_app_version', '0');
+    localStorage.setItem('skymind_app_updatedAt', '0');
+    localStorage.setItem('skymind_app_qcount', '0');
+
+    // 3) Nuke SW caches + unregister all registrations
     try {
-        // 1) Delete all skymind caches
         if ('caches' in window) {
             const names = await caches.keys();
-            await Promise.all(names.filter(n => n.startsWith('skymind-')).map(n => caches.delete(n)));
+            await Promise.all(names.map(n => caches.delete(n)));
         }
-        // 2) Unregister service worker
         if ('serviceWorker' in navigator) {
-            const reg = await navigator.serviceWorker.getRegistration();
-            if (reg) await reg.unregister();
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => r.unregister()));
         }
-        // 3) Clear study data
-        clearQuestionLocalStorage();
-        // 4) Clear version keys so applyUpdateIfNeeded re-syncs
-        localStorage.removeItem(VERSION_KEY);
-        localStorage.removeItem(VERSION_UPDATED_KEY);
-        localStorage.removeItem(VERSION_QCOUNT_KEY);
     } catch (e) {
         console.warn('[SkyMind] forceAppUpdate error:', e);
     }
-    // 5) Hard reload bypassing cache
-    location.href = location.pathname + '?nocache=' + Date.now();
+
+    // 4) Hard reload — fetches everything fresh from server
+    location.reload();
 }
 // ======= AUTO UPDATE (VERSION CHECK) =======
 const VERSION_URL = 'data/version.json';

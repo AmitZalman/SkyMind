@@ -349,18 +349,33 @@ function setupEventListeners() {
     
     // CMS Filters
     const cmsTopicFilter = $('cmsTopicFilter');
-    if (cmsTopicFilter) cmsTopicFilter.addEventListener('change', updateCMSQuestionsList);
-    
+    if (cmsTopicFilter) cmsTopicFilter.addEventListener('change', () => {
+        updateCMSSubtopicFilter();
+        updateCMSQuestionsList();
+    });
+
+    const cmsSubtopicFilter = $('cmsSubtopicFilter');
+    if (cmsSubtopicFilter) cmsSubtopicFilter.addEventListener('change', updateCMSQuestionsList);
+
     const cmsSearch = $('cmsSearch');
     if (cmsSearch) cmsSearch.addEventListener('input', updateCMSQuestionsList);
-    
-    const cmsMissingCorrect = $('cmsMissingCorrect');
-    if (cmsMissingCorrect) cmsMissingCorrect.addEventListener('change', updateCMSQuestionsList);
-    
+
+    // QA filter chips
+    document.querySelectorAll('.cms-qa-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            chip.classList.toggle('active');
+            state.cms.page = 1;
+            updateCMSQuestionsList();
+        });
+    });
+
     // CMS List clicks + checkbox
     const cmsQuestionsList = $('cmsQuestionsList');
     if (cmsQuestionsList) {
         cmsQuestionsList.addEventListener('click', e => {
+            const invalidBtn = e.target.closest('.cms-btn.invalid-toggle');
+            if (invalidBtn) { toggleInvalid(invalidBtn.dataset.id); return; }
+
             const editBtn = e.target.closest('.cms-btn.edit');
             const deleteBtn = e.target.closest('.cms-btn.delete');
 
@@ -667,7 +682,8 @@ async function init() {
     Promise.all([
         loadQuestions(),
         loadAchievementsDefinitions(),
-        loadTopicLabels()
+        loadTopicLabels(),
+        loadInvalidQuestions()
     ])
     .then(([questionsLoaded]) => {
         if (!questionsLoaded) return;

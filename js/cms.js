@@ -3,6 +3,45 @@
  * Content Studio - Question and Topic Management
  */
 
+// ==================== QA VALIDATION ====================
+function validateQuestion(q) {
+    const issues = [];
+    if (q.correctIndex === null || q.correctIndex === undefined) issues.push('missing_correct');
+    if (q.choices.length !== 4) issues.push('options_not_4');
+    if (!q.questionText || q.questionText.trim().length < 10) issues.push('short_text');
+    if (q.needsReview) issues.push('needs_review');
+    return issues;
+}
+
+function findDuplicateIds(questions) {
+    var groups = {};
+    for (var i = 0; i < questions.length; i++) {
+        var q = questions[i];
+        var key = (q.mainTopic || '') + '|' + (q.subTopic || '');
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(q);
+    }
+    var dupes = new Set();
+    for (var k in groups) {
+        var arr = groups[k];
+        var seen = {};
+        for (var j = 0; j < arr.length; j++) {
+            var text = arr[j].questionText.trim().toLowerCase();
+            if (seen[text]) {
+                dupes.add(arr[j].id);
+                dupes.add(seen[text]);
+            } else {
+                seen[text] = arr[j].id;
+            }
+        }
+    }
+    return dupes;
+}
+
+function isInvalid(qId) {
+    return !!(state.invalidQuestions && state.invalidQuestions[qId] && state.invalidQuestions[qId].invalid);
+}
+
 // ==================== CMS VIEW ====================
 function updateCMSView() {
     if (!state.cmsUnlocked) return;
@@ -13,7 +52,8 @@ function updateCMSView() {
     }
     
     updateCMSTopicFilter();
-    
+    updateCMSSubtopicFilter();
+
     const activeTab = state.cms.currentTab;
     switch (activeTab) {
         case 'questions':
@@ -64,6 +104,27 @@ function updateCMSTopicFilter() {
     }
 }
 
+function updateCMSSubtopicFilter() {
+    var topicSelect = $('cmsTopicFilter');
+    var subSelect = $('cmsSubtopicFilter');
+    if (!subSelect) return;
+
+    var topic = topicSelect ? topicSelect.value : '';
+    if (!topic) {
+        subSelect.innerHTML = '<option value="">כל תתי-הנושאים</option>';
+        subSelect.disabled = true;
+        return;
+    }
+
+    var meta = state.topicsMeta || {};
+    var labels = (meta.subLabels && meta.subLabels[topic]) || {};
+    var order = (meta.subOrder && meta.subOrder[topic]) || Object.keys(labels);
+
+    subSelect.innerHTML = '<option value="">כל תתי-הנושאים</option>' +
+        order.map(function(key) { return '<option value="' + escapeHtml(key) + '">' + escapeHtml(labels[key] || key) + '</option>'; }).join('');
+    subSelect.disabled = false;
+}
+
 function updateCMSQuestionsList() {
     const container = $('cmsQuestionsList');
     const pagination = $('cmsPagination');
@@ -72,29 +133,56 @@ function updateCMSQuestionsList() {
     if (!container) return;
     
     let filtered = state.questions.slice();
-    
+
+    // 1. Topic filter
     const topicFilter = $('cmsTopicFilter');
-    const searchFilter = $('cmsSearch');
-    const missingCorrectFilter = $('cmsMissingCorrect');
-    
     if (topicFilter && topicFilter.value) {
         filtered = filtered.filter(q => q.mainTopic === topicFilter.value);
     }
-    
+
+    // 2. Subtopic filter
+    const subtopicFilter = $('cmsSubtopicFilter');
+    if (subtopicFilter && subtopicFilter.value) {
+        filtered = filtered.filter(q => (q.subTopic || '') === subtopicFilter.value);
+    }
+
+    // 3. QA filter chips (OR logic: show question if it matches ANY active chip)
+    const activeQA = Array.from(document.querySelectorAll('.cms-qa-chip.active')).map(function(c) { return c.dataset.qa; });
+    if (activeQA.length > 0) {
+        var duplicateIds = null;
+        if (activeQA.indexOf('duplicates') >= 0) {
+            duplicateIds = findDuplicateIds(filtered);
+        }
+        filtered = filtered.filter(function(q) {
+            var issues = validateQuestion(q);
+            for (var i = 0; i < activeQA.length; i++) {
+                var qa = activeQA[i];
+                if (qa === 'invalid' && isInvalid(q.id)) return true;
+                if (qa === 'duplicates' && duplicateIds && duplicateIds.has(q.id)) return true;
+                if (issues.indexOf(qa) >= 0) return true;
+            }
+            return false;
+        });
+    }
+
+    // 4. Search (applied last, after all filters)
+    const searchFilter = $('cmsSearch');
     if (searchFilter && searchFilter.value) {
         const query = searchFilter.value.toLowerCase();
-        filtered = filtered.filter(q => 
+        filtered = filtered.filter(q =>
             q.questionText.toLowerCase().includes(query) ||
             q.id.toLowerCase().includes(query)
         );
     }
-    
-    if (missingCorrectFilter && missingCorrectFilter.checked) {
-        filtered = filtered.filter(q => q.correctIndex === null);
-    }
-    
+
+    // Summary line
     if (filteredCount) {
-        filteredCount.textContent = filtered.length + ' שאלות';
+        filteredCount.textContent = filtered.length + ' מתוך ' + state.questions.length + ' שאלות';
+    }
+    var invalidCount = filtered.filter(function(q) { return isInvalid(q.id); }).length;
+    var invalidEl = $('cmsInvalidCount');
+    if (invalidEl) {
+        invalidEl.textContent = invalidCount > 0 ? ('לא תקינות: ' + invalidCount) : '';
     }
     
     const pageSize = CONFIG.CMS_PAGE_SIZE;
@@ -110,12 +198,19 @@ function updateCMSQuestionsList() {
 
     container.innerHTML = pageItems.map(q => {
         const badges = [];
+        const issues = validateQuestion(q);
+        const qInvalid = isInvalid(q.id);
+        const invalidNote = qInvalid && state.invalidQuestions[q.id].note ? state.invalidQuestions[q.id].note : '';
+
+        if (qInvalid) badges.push('<span class="invalid-badge" title="' + escapeHtml(invalidNote) + '">🚫 לא תקינה</span>');
         if (q.needsReview) badges.push('<span class="needs-review-badge">⚠️ לבדיקה</span>');
         if (q.correctIndex === null) badges.push('<span class="missing-correct-badge">❌ חסר תשובה</span>');
+        if (issues.length > 0 && !qInvalid) badges.push('<span class="issues-count-badge">' + issues.length + ' בעיות</span>');
+
         const checked = state.cms.selected[q.id] ? 'checked' : '';
 
         return `
-            <div class="cms-question-item">
+            <div class="cms-question-item${qInvalid ? ' invalid' : ''}">
                 <input type="checkbox" class="cms-q-check" data-id="${q.id}" ${checked}>
                 <div class="cms-question-content">
                     <div class="cms-question-topic">${escapeHtml(q.mainTopic)}</div>
@@ -127,6 +222,7 @@ function updateCMSQuestionsList() {
                     </div>
                 </div>
                 <div class="cms-question-actions">
+                    <button class="cms-btn invalid-toggle${qInvalid ? ' is-invalid' : ''}" data-id="${q.id}" title="${qInvalid ? 'הסר סימון' : 'סמן כלא תקינה'}">⚠️</button>
                     <button class="cms-btn edit" data-id="${q.id}" title="ערוך">✏️</button>
                     <button class="cms-btn delete" data-id="${q.id}" title="מחק">🗑️</button>
                 </div>
@@ -867,6 +963,7 @@ function commitToGitHub() {
         questionsCount: state.questions.length
     }, null, 2);
     var topicLabelsContent = JSON.stringify(getTopicLabelsJSON(), null, 2);
+    var invalidContent = JSON.stringify(state.invalidQuestions || {}, null, 2);
 
     setStatus('מביא SHA של קבצים...');
 
@@ -874,7 +971,8 @@ function commitToGitHub() {
         getFileSha('data/questions.source.json', token),
         getFileSha('data/questions.json', token),
         getFileSha('data/version.json', token),
-        getFileSha('data/topic_labels_he.json', token)
+        getFileSha('data/topic_labels_he.json', token),
+        getFileSha('data/invalid_questions.json', token)
     ])
     .then(function(shas) {
         setStatus('שומר questions.source.json...');
@@ -890,12 +988,17 @@ function commitToGitHub() {
             .then(function() {
                 setStatus('שומר topic_labels_he.json...');
                 return putFileWithRetry('data/topic_labels_he.json', topicLabelsContent, shas[3], message + ' [labels]', token);
+            })
+            .then(function() {
+                setStatus('שומר invalid_questions.json...');
+                return putFileWithRetry('data/invalid_questions.json', invalidContent, shas[4], message + ' [invalid]', token);
             });
     })
     .then(function() {
         setStatus('');
         hideModal('githubCommitModal');
         localStorage.removeItem('skymind_topic_labels_edited');
+        localStorage.removeItem('skymind_invalid_questions');
         showToast('נשמר ב-GitHub בהצלחה!', 'success');
     })
     .catch(function(err) {
@@ -971,6 +1074,32 @@ function cmsDeleteSelected() {
     });
 }
 
+// ==================== INVALID FLAGGING ====================
+function toggleInvalid(qId) {
+    if (!state.invalidQuestions) state.invalidQuestions = {};
+
+    if (state.invalidQuestions[qId] && state.invalidQuestions[qId].invalid) {
+        delete state.invalidQuestions[qId];
+        saveInvalidQuestions();
+        updateCMSQuestionsList();
+        showToast('סימון הוסר', 'info');
+    } else {
+        var note = prompt('הערה (אופציונלי, עד 120 תווים):', '') || '';
+        state.invalidQuestions[qId] = {
+            invalid: true,
+            note: note.slice(0, 120),
+            updatedAt: Date.now()
+        };
+        saveInvalidQuestions();
+        updateCMSQuestionsList();
+        showToast('שאלה סומנה כלא תקינה', 'warning');
+    }
+}
+
+function saveInvalidQuestions() {
+    localStorage.setItem('skymind_invalid_questions', JSON.stringify(state.invalidQuestions));
+}
+
 // Export
 window.updateCMSView = updateCMSView;
 window.switchCMSTab = switchCMSTab;
@@ -1010,3 +1139,8 @@ window.addSubtopic = addSubtopic;
 window.promptRenameSubtopic = promptRenameSubtopic;
 window.deleteSubtopic = deleteSubtopic;
 window.moveSubtopic = moveSubtopic;
+window.toggleInvalid = toggleInvalid;
+window.saveInvalidQuestions = saveInvalidQuestions;
+window.updateCMSSubtopicFilter = updateCMSSubtopicFilter;
+window.validateQuestion = validateQuestion;
+window.isInvalid = isInvalid;

@@ -1,36 +1,11 @@
 {
   "mainTopics": {
-    "drone_operating": "הפעלת כלי טיס",
-    "drone_tecnical": "ידע טכני רחפנים",
-    "meteorology": "מטאורולוגיה",
-    "pilot_law": "חוק טיס"
+    "מטאורולוגיה": "מטאורולוגיה",
+    "חוקי טיס": "חוק טיס",
+    "ידע טכני": "הפעלת כלי טיס"
   },
   "subTopics": {
-    "drone_operating": {
-      "עותק של operating_aircraft_israel_airspace_49_66": "מרחב אווירי - תוספת",
-      "operating_aircraft_4a_general_67_90": "הוראות כלליות פרק 4א",
-      "עותק של operating_aircraft_israel_airspace_49_66 2": "מרחב אווירי - תוספת 2",
-      "chok_hatis_questions_full": "חוק הטיס - מלא",
-      "operating_aircraft_israel_airspace_49_66": "מרחב אווירי ישראל",
-      "operating_aircraft_general_instructions_2_48": "הוראות כלליות להפעלה",
-      "operating_aircraft_9z_rc_models_180z": "דגמי RC",
-      "operating_aircraft_definitions_23_questions": "הגדרות",
-      "operating_aircraft_4b_cvfr_91_94": "טיסת CVFR",
-      "general": "כללי"
-    },
-    "drone_tecnical": {
-      "עותק של electricity_questions": "יסודות החשמל",
-      "עותק של multirotor_flight_modes_questions_sky_mind (1)": "מצבי טיסה מולטירוטור",
-      "עותק של multirotor_structure_questions_sky_mind": "מבנה מולטירוטור",
-      "עותק של external_effects_25_questions_sky_mind": "השפעות חיצוניות",
-      "עותק של propeller_28_questions_sky_mind": "פרופלורים ומדחפים",
-      "עותק של electrical_questions_sky_mind (1)": "חשמל ומצברים",
-      "עותק של weight_balance_questions_sky_mind": "משקל ואיזון",
-      "עותק של basic_flight_modes_questions_sky_mind": "מצבי טיסה בסיסיים",
-      "עותק של control_system_questions_sky_mind": "מערכות שליטה",
-      "general": "כללי"
-    },
-    "meteorology": {
+    "מטאורולוגיה": {
       "המרת_יחידות": "המרת יחידות",
       "רוחות": "רוחות",
       "יציבות_באטמוספירה_1_עד_79_מאוחד": "יציבות באטמוספירה",
@@ -39,7 +14,7 @@
       "חזיתות": "חזיתות אוויר",
       "general": "כללי"
     },
-    "pilot_law": {
+    "חוקי טיס": {
       "flight_law_chapter_z_section_103_questions": "פרק י סעיף 103",
       "flight_law_chapter_y_financial_sanction_144_162_questions": "עיצום כספי סעיפים 144-162",
       "flight_law_chapter_z_safety_investigation_106_questions": "חקירת בטיחות סעיף 106",
@@ -55,6 +30,27 @@
       "flight_law_chapter_g_section_d_70_79_questions_with_topic": "פרק ז סימן ד עם נושאים",
       "chok_hatis_23_questions_ready_app": "חוק הטיס כללי",
       "general": "כללי"
+    },
+    "ידע טכני": {
+      "עותק של operating_aircraft_israel_airspace_49_66": "מרחב אווירי - תוספת",
+      "operating_aircraft_4a_general_67_90": "הוראות כלליות פרק 4א",
+      "עותק של operating_aircraft_israel_airspace_49_66 2": "מרחב אווירי - תוספת 2",
+      "chok_hatis_questions_full": "חוק הטיס - מלא",
+      "operating_aircraft_israel_airspace_49_66": "מרחב אווירי ישראל",
+      "operating_aircraft_general_instructions_2_48": "הוראות כלליות להפעלה",
+      "operating_aircraft_9z_rc_models_180z": "דגמי RC",
+      "operating_aircraft_definitions_23_questions": "הגדרות",
+      "operating_aircraft_4b_cvfr_91_94": "טיסת CVFR",
+      "general": "כללי",
+      "עותק של electricity_questions": "יסודות החשמל",
+      "עותק של multirotor_flight_modes_questions_sky_mind (1)": "מצבי טיסה מולטירוטור",
+      "עותק של multirotor_structure_questions_sky_mind": "מבנה מולטירוטור",
+      "עותק של external_effects_25_questions_sky_mind": "השפעות חיצוניות",
+      "עותק של propeller_28_questions_sky_mind": "פרופלורים ומדחפים",
+      "עותק של electrical_questions_sky_mind (1)": "חשמל ומצברים",
+      "עותק של weight_balance_questions_sky_mind": "משקל ואיזון",
+      "עותק של basic_flight_modes_questions_sky_mind": "מצבי טיסה בסיסיים",
+      "עותק של control_system_questions_sky_mind": "מערכות שליטה"
     }
   }
 }

@@ -113,25 +113,41 @@ let TOPICS_META = {
     subLabels: {}
 };
 
-// Load Hebrew labels from file
+// Load Hebrew labels from file, then apply local CMS overrides if any
 function loadTopicLabels() {
     return fetch('data/topic_labels_he.json')
         .then(response => response.json())
         .then(data => {
-            // Update mainLabels
             if (data.mainTopics) {
                 TOPICS_META.mainLabels = data.mainTopics;
                 TOPICS_META.mainOrder = Object.keys(data.mainTopics);
             }
-            // Update subLabels
             if (data.subTopics) {
                 TOPICS_META.subLabels = data.subTopics;
-                // Build subOrder from labels
                 TOPICS_META.subOrder = {};
                 for (const main in data.subTopics) {
                     TOPICS_META.subOrder[main] = Object.keys(data.subTopics[main]);
                 }
             }
+            // Apply local CMS edits if present
+            try {
+                const local = localStorage.getItem('skymind_topic_labels_edited');
+                if (local) {
+                    const edited = JSON.parse(local);
+                    if (edited.mainTopics) {
+                        TOPICS_META.mainLabels = edited.mainTopics;
+                        TOPICS_META.mainOrder = Object.keys(edited.mainTopics);
+                    }
+                    if (edited.subTopics) {
+                        TOPICS_META.subLabels = edited.subTopics;
+                        TOPICS_META.subOrder = {};
+                        for (const main in edited.subTopics) {
+                            TOPICS_META.subOrder[main] = Object.keys(edited.subTopics[main]);
+                        }
+                    }
+                    log('Applied local CMS topic label edits');
+                }
+            } catch (_) {}
             state.topicsMeta = TOPICS_META;
             log('Loaded Hebrew topic labels');
         })
@@ -140,7 +156,22 @@ function loadTopicLabels() {
         });
 }
 
+// Returns the full topic labels object for saving/committing
+function getTopicLabelsJSON() {
+    const meta = state.topicsMeta || TOPICS_META;
+    const subTopics = {};
+    for (const main in meta.subLabels) {
+        subTopics[main] = {};
+        const order = (meta.subOrder && meta.subOrder[main]) || Object.keys(meta.subLabels[main]);
+        order.forEach(key => {
+            if (meta.subLabels[main][key] != null) subTopics[main][key] = meta.subLabels[main][key];
+        });
+    }
+    return { mainTopics: meta.mainLabels, subTopics: subTopics };
+}
+
 window.loadTopicLabels = loadTopicLabels;
+window.getTopicLabelsJSON = getTopicLabelsJSON;
 
 // Centralized application state
 const state = {

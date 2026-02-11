@@ -403,7 +403,9 @@ function setupEventListeners() {
     if (cmsTopicsList) {
         cmsTopicsList.addEventListener('click', e => {
             const btn = e.target.closest('.topic-edit-btn');
-            if (btn) showTopicEditor(btn.dataset.topic);
+            if (btn) { showTopicEditor(btn.dataset.topic); return; }
+            const toggle = e.target.closest('.cms-topic-toggle');
+            if (toggle) toggleSubtopicPanel(toggle.dataset.topic);
         });
     }
     

@@ -16,6 +16,46 @@
     "xpBonus": 50
   },
   {
+    "id": "answered_50",
+    "name": "חמישים שאלות",
+    "description": "ענה על 50 שאלות",
+    "icon": "📊",
+    "category": "beginner",
+    "xpBonus": 75
+  },
+  {
+    "id": "answered_100",
+    "name": "מאה שאלות",
+    "description": "ענה על 100 שאלות",
+    "icon": "📈",
+    "category": "progress",
+    "xpBonus": 100
+  },
+  {
+    "id": "answered_500",
+    "name": "חמש מאות",
+    "description": "ענה על 500 שאלות",
+    "icon": "🎓",
+    "category": "progress",
+    "xpBonus": 300
+  },
+  {
+    "id": "answered_1000",
+    "name": "אלף שאלות",
+    "description": "ענה על 1000 שאלות",
+    "icon": "🏅",
+    "category": "progress",
+    "xpBonus": 500
+  },
+  {
+    "id": "answered_2000",
+    "name": "אלפיים שאלות",
+    "description": "ענה על 2000 שאלות",
+    "icon": "🎖️",
+    "category": "progress",
+    "xpBonus": 750
+  },
+  {
     "id": "correct_50",
     "name": "חמישים נכונות",
     "description": "ענה נכון על 50 שאלות",
@@ -30,6 +70,22 @@
     "icon": "💯",
     "category": "progress",
     "xpBonus": 200
+  },
+  {
+    "id": "correct_200",
+    "name": "מאתיים נכונות",
+    "description": "ענה נכון על 200 שאלות",
+    "icon": "🔮",
+    "category": "progress",
+    "xpBonus": 250
+  },
+  {
+    "id": "correct_300",
+    "name": "שלוש מאות",
+    "description": "ענה נכון על 300 שאלות",
+    "icon": "🎲",
+    "category": "progress",
+    "xpBonus": 350
   },
   {
     "id": "correct_500",
@@ -48,12 +104,44 @@
     "xpBonus": 1000
   },
   {
+    "id": "accuracy_70",
+    "name": "דיוק סביר",
+    "description": "השג דיוק כללי של 70% (100+ שאלות)",
+    "icon": "📐",
+    "category": "progress",
+    "xpBonus": 150
+  },
+  {
+    "id": "accuracy_80",
+    "name": "דיוק גבוה",
+    "description": "השג דיוק כללי של 80% (100+ שאלות)",
+    "icon": "🎯",
+    "category": "progress",
+    "xpBonus": 300
+  },
+  {
+    "id": "accuracy_90",
+    "name": "דיוק מעולה",
+    "description": "השג דיוק כללי של 90% (100+ שאלות)",
+    "icon": "🏹",
+    "category": "progress",
+    "xpBonus": 500
+  },
+  {
     "id": "streak_3",
     "name": "שלושה בשורה",
     "description": "למד 3 ימים רצופים",
     "icon": "🔥",
     "category": "streak",
     "xpBonus": 75
+  },
+  {
+    "id": "streak_5",
+    "name": "חמישה ימים",
+    "description": "למד 5 ימים רצופים",
+    "icon": "🔥",
+    "category": "streak",
+    "xpBonus": 100
   },
   {
     "id": "streak_7",
@@ -64,6 +152,14 @@
     "xpBonus": 150
   },
   {
+    "id": "streak_14",
+    "name": "שבועיים",
+    "description": "למד 14 ימים רצופים",
+    "icon": "📆",
+    "category": "streak",
+    "xpBonus": 250
+  },
+  {
     "id": "streak_30",
     "name": "חודש של התמדה",
     "description": "למד 30 ימים רצופים",
@@ -72,12 +168,36 @@
     "xpBonus": 500
   },
   {
+    "id": "streak_60",
+    "name": "חודשיים",
+    "description": "למד 60 ימים רצופים",
+    "icon": "🏋️",
+    "category": "streak",
+    "xpBonus": 750
+  },
+  {
+    "id": "streak_100",
+    "name": "מאה ימים",
+    "description": "למד 100 ימים רצופים",
+    "icon": "🏰",
+    "category": "streak",
+    "xpBonus": 1500
+  },
+  {
     "id": "xp_1000",
     "name": "אלף נקודות",
     "description": "צבור 1000 XP",
     "icon": "⭐",
     "category": "xp",
     "xpBonus": 100
+  },
+  {
+    "id": "xp_2500",
+    "name": "אלפיים וחמש מאות",
+    "description": "צבור 2500 XP",
+    "icon": "💰",
+    "category": "xp",
+    "xpBonus": 150
   },
   {
     "id": "xp_5000",
@@ -96,6 +216,22 @@
     "xpBonus": 500
   },
   {
+    "id": "xp_25000",
+    "name": "עשרים וחמישה אלף",
+    "description": "צבור 25000 XP",
+    "icon": "🪙",
+    "category": "xp",
+    "xpBonus": 750
+  },
+  {
+    "id": "xp_50000",
+    "name": "חמישים אלף",
+    "description": "צבור 50000 XP",
+    "icon": "💎",
+    "category": "xp",
+    "xpBonus": 1000
+  },
+  {
     "id": "study_60",
     "name": "שעה של לימוד",
     "description": "למד במצטבר שעה",
@@ -104,12 +240,52 @@
     "xpBonus": 100
   },
   {
+    "id": "study_120",
+    "name": "שעתיים",
+    "description": "למד במצטבר שעתיים",
+    "icon": "⏳",
+    "category": "time",
+    "xpBonus": 150
+  },
+  {
     "id": "study_300",
     "name": "חמש שעות",
     "description": "למד במצטבר 5 שעות",
     "icon": "📚",
     "category": "time",
     "xpBonus": 300
+  },
+  {
+    "id": "study_600",
+    "name": "עשר שעות",
+    "description": "למד במצטבר 10 שעות",
+    "icon": "📖",
+    "category": "time",
+    "xpBonus": 500
+  },
+  {
+    "id": "study_1200",
+    "name": "עשרים שעות",
+    "description": "למד במצטבר 20 שעות",
+    "icon": "🎒",
+    "category": "time",
+    "xpBonus": 750
+  },
+  {
+    "id": "study_today_30",
+    "name": "חצי שעה ביום",
+    "description": "למד 30 דקות ביום אחד",
+    "icon": "⏱️",
+    "category": "time",
+    "xpBonus": 75
+  },
+  {
+    "id": "study_today_60",
+    "name": "שעה ביום",
+    "description": "למד שעה ביום אחד",
+    "icon": "🕐",
+    "category": "time",
+    "xpBonus": 150
   },
   {
     "id": "session_streak_5",
@@ -128,6 +304,14 @@
     "xpBonus": 100
   },
   {
+    "id": "session_streak_15",
+    "name": "מכונה",
+    "description": "15 תשובות נכונות ברצף בסשן",
+    "icon": "⚡",
+    "category": "session",
+    "xpBonus": 150
+  },
+  {
     "id": "session_streak_20",
     "name": "בלתי ניתן לעצירה",
     "description": "20 תשובות נכונות ברצף בסשן",
@@ -136,10 +320,34 @@
     "xpBonus": 200
   },
   {
+    "id": "session_streak_30",
+    "name": "אלוף הסשן",
+    "description": "30 תשובות נכונות ברצף בסשן",
+    "icon": "🌊",
+    "category": "session",
+    "xpBonus": 300
+  },
+  {
+    "id": "session_streak_50",
+    "name": "אגדי",
+    "description": "50 תשובות נכונות ברצף בסשן",
+    "icon": "🔱",
+    "category": "session",
+    "xpBonus": 500
+  },
+  {
+    "id": "first_exam",
+    "name": "מבחן ראשון",
+    "description": "השלם מבחן מדמה",
+    "icon": "📋",
+    "category": "exam",
+    "xpBonus": 75
+  },
+  {
     "id": "exam_pass",
     "name": "עובר מבחן",
     "description": "עבור מבחן מדמה עם 60% לפחות",
-    "icon": "📋",
+    "icon": "✔️",
     "category": "exam",
     "xpBonus": 150
   },
@@ -152,10 +360,42 @@
     "xpBonus": 300
   },
   {
+    "id": "exam_90",
+    "name": "כמעט מושלם",
+    "description": "קבל 90% לפחות במבחן מדמה",
+    "icon": "🥇",
+    "category": "exam",
+    "xpBonus": 400
+  },
+  {
     "id": "exam_perfect",
     "name": "מושלם",
     "description": "קבל 100% במבחן מדמה",
     "icon": "💎",
+    "category": "exam",
+    "xpBonus": 500
+  },
+  {
+    "id": "exam_3",
+    "name": "שלושה מבחנים",
+    "description": "השלם 3 מבחנים מדמים",
+    "icon": "📝",
+    "category": "exam",
+    "xpBonus": 200
+  },
+  {
+    "id": "exam_5",
+    "name": "חמישה מבחנים",
+    "description": "השלם 5 מבחנים מדמים",
+    "icon": "🎓",
+    "category": "exam",
+    "xpBonus": 350
+  },
+  {
+    "id": "exam_10",
+    "name": "עשרה מבחנים",
+    "description": "השלם 10 מבחנים מדמים",
+    "icon": "🏆",
     "category": "exam",
     "xpBonus": 500
   },
@@ -166,6 +406,22 @@
     "icon": "📖",
     "category": "mastery",
     "xpBonus": 200
+  },
+  {
+    "id": "topic_master_2",
+    "name": "שליטה בשניים",
+    "description": "השג שליטה ב-2 נושאים",
+    "icon": "📚",
+    "category": "mastery",
+    "xpBonus": 350
+  },
+  {
+    "id": "topic_master_all",
+    "name": "שליטה מוחלטת",
+    "description": "השג שליטה בכל הנושאים",
+    "icon": "👨‍🎓",
+    "category": "mastery",
+    "xpBonus": 1000
   },
   {
     "id": "all_topics",
@@ -184,12 +440,36 @@
     "xpBonus": 250
   },
   {
+    "id": "topic_complete_3",
+    "name": "שלושה סיומים",
+    "description": "סיים מצב אינסופי ב-3 נושאים",
+    "icon": "🎪",
+    "category": "mastery",
+    "xpBonus": 500
+  },
+  {
+    "id": "all_seen",
+    "name": "ראיתי הכל",
+    "description": "ענה על כל שאלה במאגר לפחות פעם",
+    "icon": "🗂️",
+    "category": "mastery",
+    "xpBonus": 750
+  },
+  {
     "id": "night_owl",
     "name": "ינשוף לילה",
     "description": "ענה על 20 שאלות אחרי חצות",
     "icon": "🦉",
     "category": "special",
     "xpBonus": 100
+  },
+  {
+    "id": "night_owl_50",
+    "name": "חתול לילה",
+    "description": "ענה על 50 שאלות אחרי חצות",
+    "icon": "🐱",
+    "category": "special",
+    "xpBonus": 150
   },
   {
     "id": "early_bird",

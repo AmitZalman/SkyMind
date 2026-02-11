@@ -199,17 +199,41 @@ function checkAchievements() {
         let unlocked = false;
         
         switch (ach.id) {
+            // --- Beginner / Total answered ---
             case 'first_blood':
                 unlocked = g.totalCorrect >= 1;
                 break;
             case 'first_10':
                 unlocked = g.totalAnswered >= 10;
                 break;
+            case 'answered_50':
+                unlocked = g.totalAnswered >= 50;
+                break;
+            case 'answered_100':
+                unlocked = g.totalAnswered >= 100;
+                break;
+            case 'answered_500':
+                unlocked = g.totalAnswered >= 500;
+                break;
+            case 'answered_1000':
+                unlocked = g.totalAnswered >= 1000;
+                break;
+            case 'answered_2000':
+                unlocked = g.totalAnswered >= 2000;
+                break;
+
+            // --- Total correct ---
             case 'correct_50':
                 unlocked = g.totalCorrect >= 50;
                 break;
             case 'correct_100':
                 unlocked = g.totalCorrect >= 100;
+                break;
+            case 'correct_200':
+                unlocked = g.totalCorrect >= 200;
+                break;
+            case 'correct_300':
+                unlocked = g.totalCorrect >= 300;
                 break;
             case 'correct_500':
                 unlocked = g.totalCorrect >= 500;
@@ -217,17 +241,47 @@ function checkAchievements() {
             case 'correct_1000':
                 unlocked = g.totalCorrect >= 1000;
                 break;
+
+            // --- Accuracy ---
+            case 'accuracy_70':
+                unlocked = g.totalAnswered >= 100 && (g.totalCorrect / g.totalAnswered) >= 0.70;
+                break;
+            case 'accuracy_80':
+                unlocked = g.totalAnswered >= 100 && (g.totalCorrect / g.totalAnswered) >= 0.80;
+                break;
+            case 'accuracy_90':
+                unlocked = g.totalAnswered >= 100 && (g.totalCorrect / g.totalAnswered) >= 0.90;
+                break;
+
+            // --- Daily streak ---
             case 'streak_3':
                 unlocked = g.dailyStreak >= 3;
+                break;
+            case 'streak_5':
+                unlocked = g.dailyStreak >= 5;
                 break;
             case 'streak_7':
                 unlocked = g.dailyStreak >= 7;
                 break;
+            case 'streak_14':
+                unlocked = g.dailyStreak >= 14;
+                break;
             case 'streak_30':
                 unlocked = g.dailyStreak >= 30;
                 break;
+            case 'streak_60':
+                unlocked = g.dailyStreak >= 60;
+                break;
+            case 'streak_100':
+                unlocked = g.dailyStreak >= 100;
+                break;
+
+            // --- XP ---
             case 'xp_1000':
                 unlocked = g.totalXP >= 1000;
+                break;
+            case 'xp_2500':
+                unlocked = g.totalXP >= 2500;
                 break;
             case 'xp_5000':
                 unlocked = g.totalXP >= 5000;
@@ -235,20 +289,59 @@ function checkAchievements() {
             case 'xp_10000':
                 unlocked = g.totalXP >= 10000;
                 break;
+            case 'xp_25000':
+                unlocked = g.totalXP >= 25000;
+                break;
+            case 'xp_50000':
+                unlocked = g.totalXP >= 50000;
+                break;
+
+            // --- Study time ---
             case 'study_60':
                 unlocked = g.totalStudyMinutes >= 60;
+                break;
+            case 'study_120':
+                unlocked = g.totalStudyMinutes >= 120;
                 break;
             case 'study_300':
                 unlocked = g.totalStudyMinutes >= 300;
                 break;
+            case 'study_600':
+                unlocked = g.totalStudyMinutes >= 600;
+                break;
+            case 'study_1200':
+                unlocked = g.totalStudyMinutes >= 1200;
+                break;
+            case 'study_today_30':
+                unlocked = (g.todayStudyMinutes || 0) >= 30;
+                break;
+            case 'study_today_60':
+                unlocked = (g.todayStudyMinutes || 0) >= 60;
+                break;
+
+            // --- Session streak ---
             case 'session_streak_5':
                 unlocked = g.bestSessionStreak >= 5;
                 break;
             case 'session_streak_10':
                 unlocked = g.bestSessionStreak >= 10;
                 break;
+            case 'session_streak_15':
+                unlocked = g.bestSessionStreak >= 15;
+                break;
             case 'session_streak_20':
                 unlocked = g.bestSessionStreak >= 20;
+                break;
+            case 'session_streak_30':
+                unlocked = g.bestSessionStreak >= 30;
+                break;
+            case 'session_streak_50':
+                unlocked = g.bestSessionStreak >= 50;
+                break;
+
+            // --- Exams ---
+            case 'first_exam':
+                unlocked = g.examScores && g.examScores.length >= 1;
                 break;
             case 'exam_pass':
                 unlocked = g.examScores && g.examScores.some(e => e.percentage >= 60);
@@ -256,24 +349,58 @@ function checkAchievements() {
             case 'exam_hero':
                 unlocked = g.examScores && g.examScores.some(e => e.percentage >= 80);
                 break;
+            case 'exam_90':
+                unlocked = g.examScores && g.examScores.some(e => e.percentage >= 90);
+                break;
             case 'exam_perfect':
                 unlocked = g.examScores && g.examScores.some(e => e.percentage === 100);
                 break;
+            case 'exam_3':
+                unlocked = g.examScores && g.examScores.length >= 3;
+                break;
+            case 'exam_5':
+                unlocked = g.examScores && g.examScores.length >= 5;
+                break;
+            case 'exam_10':
+                unlocked = g.examScores && g.examScores.length >= 10;
+                break;
+
+            // --- Mastery ---
             case 'topic_master':
                 unlocked = Object.keys(state.questionsByTopic).some(t => isTopicMastered(t));
                 break;
-            case 'all_topics':
+            case 'topic_master_2':
+                unlocked = Object.keys(state.questionsByTopic).filter(t => isTopicMastered(t)).length >= 2;
+                break;
+            case 'topic_master_all': {
+                const allTopics = Object.keys(state.questionsByTopic);
+                unlocked = allTopics.length > 0 && allTopics.every(t => isTopicMastered(t));
+                break;
+            }
+            case 'all_topics': {
                 const topics = Object.keys(state.questionsByTopic);
                 unlocked = topics.every(t => {
                     const questions = state.questionsByTopic[t];
                     return questions.some(q => state.progress[q.id] && state.progress[q.id].attempts > 0);
                 });
                 break;
+            }
             case 'topic_complete':
                 unlocked = (g.completedTopics || []).length > 0;
                 break;
+            case 'topic_complete_3':
+                unlocked = (g.completedTopics || []).length >= 3;
+                break;
+            case 'all_seen':
+                unlocked = state.questions.length > 0 && state.questions.every(q => state.progress[q.id] && state.progress[q.id].attempts > 0);
+                break;
+
+            // --- Special ---
             case 'night_owl':
                 unlocked = (g.nightOwlCount || 0) >= 20;
+                break;
+            case 'night_owl_50':
+                unlocked = (g.nightOwlCount || 0) >= 50;
                 break;
             case 'early_bird':
                 unlocked = g.earlyBirdUnlocked === true;

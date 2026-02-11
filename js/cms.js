@@ -159,19 +159,147 @@ function updateCMSQuestionsList() {
 }
 
 // ==================== TOPICS LIST ====================
+let expandedTopic = null;
+
 function updateCMSTopicsList() {
     const container = $('cmsTopicsList');
     if (!container) return;
-    
+
     const topics = Object.keys(state.questionsByTopic).sort();
-    
-    container.innerHTML = topics.map(topic => `
-        <div class="topic-manager-item">
-            <span class="topic-manager-name">${escapeHtml(topic)}</span>
-            <span class="topic-manager-count">${state.questionsByTopic[topic].length} שאלות</span>
-            <button class="btn-ghost btn-sm topic-edit-btn" data-topic="${escapeHtml(topic)}">ערוך</button>
+
+    container.innerHTML = topics.map(topic => {
+        const isExpanded = expandedTopic === topic;
+        return `
+        <div class="topic-manager-item${isExpanded ? ' expanded' : ''}">
+            <div class="topic-manager-row">
+                <span class="topic-manager-name cms-topic-toggle" data-topic="${escapeHtml(topic)}">${isExpanded ? '▼' : '◀'} ${escapeHtml(topic)}</span>
+                <span class="topic-manager-count">${state.questionsByTopic[topic].length} שאלות</span>
+                <button class="btn-ghost btn-sm topic-edit-btn" data-topic="${escapeHtml(topic)}">ערוך</button>
+            </div>
+            ${isExpanded ? renderSubtopicsForTopic(topic) : ''}
+        </div>`;
+    }).join('');
+}
+
+// ==================== SUBTOPICS MANAGEMENT ====================
+function renderSubtopicsForTopic(mainTopic) {
+    const meta = state.topicsMeta || {};
+    const labels = (meta.subLabels && meta.subLabels[mainTopic]) || {};
+    const order = (meta.subOrder && meta.subOrder[mainTopic]) || Object.keys(labels);
+
+    const items = order.map((key, i) => `
+        <div class="cms-subtopic-item">
+            <span class="cms-subtopic-label" title="${escapeHtml(key)}">${escapeHtml(labels[key] || key)}</span>
+            <span class="cms-subtopic-key">${escapeHtml(key)}</span>
+            <div class="cms-subtopic-actions">
+                <button class="btn-ghost btn-xs" onclick="moveSubtopic('${escapeHtml(mainTopic)}','${escapeHtml(key)}',-1)" ${i === 0 ? 'disabled' : ''}>▲</button>
+                <button class="btn-ghost btn-xs" onclick="moveSubtopic('${escapeHtml(mainTopic)}','${escapeHtml(key)}',1)" ${i === order.length - 1 ? 'disabled' : ''}>▼</button>
+                <button class="btn-ghost btn-xs" onclick="promptRenameSubtopic('${escapeHtml(mainTopic)}','${escapeHtml(key)}')">✏️</button>
+                <button class="btn-ghost btn-xs danger" onclick="deleteSubtopic('${escapeHtml(mainTopic)}','${escapeHtml(key)}')">🗑️</button>
+            </div>
+        </div>`).join('');
+
+    return `
+    <div class="cms-subtopics-panel">
+        <div class="cms-subtopics-header">תתי-נושאים (${order.length})</div>
+        ${items || '<div class="cms-subtopic-empty">אין תתי-נושאים</div>'}
+        <div class="cms-subtopic-add">
+            <input type="text" id="newSubtopicInput_${mainTopic}" placeholder="שם תת-נושא חדש..." class="input-sm">
+            <button class="btn-primary btn-xs" onclick="addSubtopic('${escapeHtml(mainTopic)}')">הוסף</button>
         </div>
-    `).join('');
+    </div>`;
+}
+
+function toggleSubtopicPanel(mainTopic) {
+    expandedTopic = expandedTopic === mainTopic ? null : mainTopic;
+    updateCMSTopicsList();
+}
+
+function saveTopicLabels() {
+    const data = getTopicLabelsJSON();
+    localStorage.setItem('skymind_topic_labels_edited', JSON.stringify(data));
+}
+
+function addSubtopic(mainTopic) {
+    const input = $('newSubtopicInput_' + mainTopic);
+    if (!input) return;
+    const name = input.value.trim();
+    if (!name) { showToast('נא להזין שם תת-נושא', 'error'); return; }
+
+    const meta = state.topicsMeta;
+    if (!meta.subLabels[mainTopic]) meta.subLabels[mainTopic] = {};
+    if (!meta.subOrder[mainTopic]) meta.subOrder[mainTopic] = [];
+
+    // Duplicate check (case-insensitive on label)
+    const nameLower = name.toLowerCase();
+    const existing = Object.values(meta.subLabels[mainTopic]);
+    if (existing.some(l => l.toLowerCase() === nameLower)) {
+        showToast('תת-נושא עם שם זהה כבר קיים', 'error');
+        return;
+    }
+
+    // Use name as key (matching existing Hebrew-key convention)
+    const key = name;
+    meta.subLabels[mainTopic][key] = name;
+    meta.subOrder[mainTopic].push(key);
+
+    saveTopicLabels();
+    updateCMSTopicsList();
+    showToast('תת-נושא נוסף', 'success');
+}
+
+function promptRenameSubtopic(mainTopic, key) {
+    const meta = state.topicsMeta;
+    const currentLabel = (meta.subLabels[mainTopic] && meta.subLabels[mainTopic][key]) || key;
+    const newLabel = prompt('שם חדש לתת-נושא:', currentLabel);
+    if (newLabel === null) return;
+    const trimmed = newLabel.trim();
+    if (!trimmed) { showToast('שם לא יכול להיות ריק', 'error'); return; }
+    if (trimmed === currentLabel) return;
+
+    // Duplicate check
+    const trimLower = trimmed.toLowerCase();
+    const existing = Object.entries(meta.subLabels[mainTopic] || {});
+    if (existing.some(([k, l]) => k !== key && l.toLowerCase() === trimLower)) {
+        showToast('תת-נושא עם שם זהה כבר קיים', 'error');
+        return;
+    }
+
+    meta.subLabels[mainTopic][key] = trimmed;
+    saveTopicLabels();
+    updateCMSTopicsList();
+    showToast('שם תת-נושא שונה', 'success');
+}
+
+function deleteSubtopic(mainTopic, key) {
+    const meta = state.topicsMeta;
+    const label = (meta.subLabels[mainTopic] && meta.subLabels[mainTopic][key]) || key;
+    if (!confirm('למחוק את תת-הנושא "' + label + '"?')) return;
+
+    delete meta.subLabels[mainTopic][key];
+    if (meta.subOrder[mainTopic]) {
+        meta.subOrder[mainTopic] = meta.subOrder[mainTopic].filter(k => k !== key);
+    }
+
+    saveTopicLabels();
+    updateCMSTopicsList();
+    showToast('תת-נושא נמחק', 'success');
+}
+
+function moveSubtopic(mainTopic, key, direction) {
+    const meta = state.topicsMeta;
+    const order = meta.subOrder[mainTopic];
+    if (!order) return;
+    const idx = order.indexOf(key);
+    if (idx < 0) return;
+    const newIdx = idx + direction;
+    if (newIdx < 0 || newIdx >= order.length) return;
+
+    order[idx] = order[newIdx];
+    order[newIdx] = key;
+
+    saveTopicLabels();
+    updateCMSTopicsList();
 }
 
 // ==================== REVIEW LIST ====================
@@ -738,13 +866,15 @@ function commitToGitHub() {
         version: APP_VERSION,
         questionsCount: state.questions.length
     }, null, 2);
+    var topicLabelsContent = JSON.stringify(getTopicLabelsJSON(), null, 2);
 
     setStatus('מביא SHA של קבצים...');
 
     Promise.all([
         getFileSha('data/questions.source.json', token),
         getFileSha('data/questions.json', token),
-        getFileSha('data/version.json', token)
+        getFileSha('data/version.json', token),
+        getFileSha('data/topic_labels_he.json', token)
     ])
     .then(function(shas) {
         setStatus('שומר questions.source.json...');
@@ -756,11 +886,16 @@ function commitToGitHub() {
             .then(function() {
                 setStatus('שומר version.json...');
                 return putFileWithRetry('data/version.json', versionContent, shas[2], message + ' [version]', token);
+            })
+            .then(function() {
+                setStatus('שומר topic_labels_he.json...');
+                return putFileWithRetry('data/topic_labels_he.json', topicLabelsContent, shas[3], message + ' [labels]', token);
             });
     })
     .then(function() {
         setStatus('');
         hideModal('githubCommitModal');
+        localStorage.removeItem('skymind_topic_labels_edited');
         showToast('נשמר ב-GitHub בהצלחה!', 'success');
     })
     .catch(function(err) {
@@ -870,3 +1005,8 @@ window.toggleCmsSelect = toggleCmsSelect;
 window.cmsSelectAll = cmsSelectAll;
 window.cmsClearSelection = cmsClearSelection;
 window.cmsDeleteSelected = cmsDeleteSelected;
+window.toggleSubtopicPanel = toggleSubtopicPanel;
+window.addSubtopic = addSubtopic;
+window.promptRenameSubtopic = promptRenameSubtopic;
+window.deleteSubtopic = deleteSubtopic;
+window.moveSubtopic = moveSubtopic;

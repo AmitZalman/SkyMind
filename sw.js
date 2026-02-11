@@ -5,7 +5,7 @@
  * - Offline fallback from cache
  */
 
-const SW_BUILD = '3.3.2';
+const SW_BUILD = '3.3.3';
 console.log(`[SW] build ${SW_BUILD} loaded`);
 
 const STATIC_CACHE = `skymind-static-${SW_BUILD}`;
@@ -112,7 +112,7 @@ self.addEventListener('fetch', event => {
             event.respondWith(
                 fetch(event.request, { cache: 'no-store' })
                     .then(res => {
-                        if (res.ok) caches.open(DYNAMIC_CACHE).then(c => c.put(cacheKey, res.clone()));
+                        if (res.ok) { const copy = res.clone(); event.waitUntil(caches.open(DYNAMIC_CACHE).then(c => c.put(cacheKey, copy))); }
                         return res;
                     })
                     .catch(() => caches.match(cacheKey).then(c => {
@@ -135,7 +135,7 @@ self.addEventListener('fetch', event => {
         event.respondWith(
             fetch(event.request, { cache: 'no-store' })
                 .then(res => {
-                    if (res.ok) caches.open(STATIC_CACHE).then(c => c.put(event.request, res.clone()));
+                    if (res.ok) { const copy = res.clone(); event.waitUntil(caches.open(STATIC_CACHE).then(c => c.put(event.request, copy))); }
                     return res;
                 })
                 .catch(() =>
@@ -154,7 +154,7 @@ self.addEventListener('fetch', event => {
         event.respondWith(
             fetch(event.request, { cache: 'no-store' })
                 .then(res => {
-                    if (res.ok) caches.open(STATIC_CACHE).then(c => c.put(event.request, res.clone()));
+                    if (res.ok) { const copy = res.clone(); event.waitUntil(caches.open(STATIC_CACHE).then(c => c.put(event.request, copy))); }
                     return res;
                 })
                 .catch(() => caches.match(event.request)
@@ -168,7 +168,7 @@ self.addEventListener('fetch', event => {
         caches.match(event.request).then(cached => {
             if (cached) return cached;
             return fetch(event.request).then(res => {
-                if (res.ok) caches.open(STATIC_CACHE).then(c => c.put(event.request, res.clone()));
+                if (res.ok) { const copy = res.clone(); event.waitUntil(caches.open(STATIC_CACHE).then(c => c.put(event.request, copy))); }
                 return res;
             }).catch(() => new Response('Offline', { status: 503 }));
         })

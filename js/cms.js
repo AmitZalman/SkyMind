@@ -653,45 +653,115 @@ function deleteQuestion(id) {
 // ==================== TOPIC EDITOR ====================
 let editingTopic = null;
 
+function migrateTopicKey(oldKey, newKey) {
+    if (oldKey === newKey) return;
+    var meta = state.topicsMeta;
+    if (!meta) return;
+
+    // Migrate subLabels
+    if (meta.subLabels && meta.subLabels[oldKey]) {
+        if (!meta.subLabels[newKey]) {
+            meta.subLabels[newKey] = meta.subLabels[oldKey];
+        } else {
+            // Merge: old entries that don't conflict go into new
+            var existing = meta.subLabels[newKey];
+            var old = meta.subLabels[oldKey];
+            for (var k in old) {
+                if (!(k in existing)) existing[k] = old[k];
+            }
+        }
+        delete meta.subLabels[oldKey];
+    }
+
+    // Migrate subOrder
+    if (meta.subOrder && meta.subOrder[oldKey]) {
+        if (!meta.subOrder[newKey]) {
+            meta.subOrder[newKey] = meta.subOrder[oldKey];
+        } else {
+            // Append keys from old that aren't already in new
+            var existingSet = new Set(meta.subOrder[newKey]);
+            meta.subOrder[oldKey].forEach(function(k) {
+                if (!existingSet.has(k)) meta.subOrder[newKey].push(k);
+            });
+        }
+        delete meta.subOrder[oldKey];
+    }
+
+    // Migrate mainLabels
+    if (meta.mainLabels && meta.mainLabels[oldKey]) {
+        if (!meta.mainLabels[newKey]) {
+            meta.mainLabels[newKey] = meta.mainLabels[oldKey];
+        }
+        delete meta.mainLabels[oldKey];
+    }
+
+    // Migrate mainOrder
+    if (meta.mainOrder) {
+        var idx = meta.mainOrder.indexOf(oldKey);
+        if (idx >= 0) {
+            if (meta.mainOrder.indexOf(newKey) < 0) {
+                meta.mainOrder[idx] = newKey;
+            } else {
+                meta.mainOrder.splice(idx, 1);
+            }
+        }
+    }
+
+    saveTopicLabels();
+}
+
 function showTopicEditor(topic) {
     editingTopic = topic;
-    
+
     const currentName = $('currentTopicName');
     const newName = $('newTopicName');
-    
+
     if (currentName) currentName.value = topic;
     if (newName) newName.value = topic;
-    
+
     showModal('topicEditorModal');
 }
 
 function renameTopic() {
     if (!editingTopic) return;
-    
+
     const newName = $('newTopicName');
     if (!newName) return;
-    
+
     const newTopicName = newName.value.trim();
     if (!newTopicName) {
         showToast('נא להזין שם נושא', 'error');
         return;
     }
-    
+
     if (newTopicName === editingTopic) {
         hideModal('topicEditorModal');
         return;
     }
-    
+
+    // Block rename if target key already exists (case-insensitive)
+    var existingTopics = Object.keys(state.questionsByTopic);
+    var newLower = newTopicName.toLowerCase();
+    var conflict = existingTopics.find(function(t) {
+        return t !== editingTopic && t.toLowerCase() === newLower;
+    });
+    if (conflict) {
+        showToast('נושא עם שם זהה כבר קיים: ' + conflict, 'error');
+        return;
+    }
+
     state.questions.forEach(q => {
         if (q.mainTopic === editingTopic) {
             q.mainTopic = newTopicName;
             q.updatedAt = Date.now();
         }
     });
-    
+
+    migrateTopicKey(editingTopic, newTopicName);
+
     buildIndexes();
     saveQuestions();
-    
+
     hideModal('topicEditorModal');
     updateCMSView();
     showToast('שם הנושא שונה', 'success');
@@ -717,25 +787,27 @@ function showMergeTopicModal() {
 
 function mergeTopic() {
     if (!editingTopic) return;
-    
+
     const targetEl = $('mergeTargetTopic');
     if (!targetEl || !targetEl.value) {
         showToast('נא לבחור נושא יעד', 'error');
         return;
     }
-    
+
     const targetTopic = targetEl.value;
-    
+
     state.questions.forEach(q => {
         if (q.mainTopic === editingTopic) {
             q.mainTopic = targetTopic;
             q.updatedAt = Date.now();
         }
     });
-    
+
+    migrateTopicKey(editingTopic, targetTopic);
+
     buildIndexes();
     saveQuestions();
-    
+
     hideModal('mergeTopicModal');
     updateCMSView();
     showToast('הנושאים מוזגו', 'success');
@@ -1141,6 +1213,7 @@ window.deleteSubtopic = deleteSubtopic;
 window.moveSubtopic = moveSubtopic;
 window.toggleInvalid = toggleInvalid;
 window.saveInvalidQuestions = saveInvalidQuestions;
+window.migrateTopicKey = migrateTopicKey;
 window.updateCMSSubtopicFilter = updateCMSSubtopicFilter;
 window.validateQuestion = validateQuestion;
 window.isInvalid = isInvalid;

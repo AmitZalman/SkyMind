@@ -428,14 +428,23 @@
                             <select id="cmsTopicFilter">
                                 <option value="">כל הנושאים</option>
                             </select>
+                            <select id="cmsSubtopicFilter" disabled>
+                                <option value="">כל תתי-הנושאים</option>
+                            </select>
                             <input type="text" id="cmsSearch" placeholder="חפש שאלה...">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="cmsMissingCorrect">
-                                <span>חסרה תשובה</span>
-                            </label>
+                        </div>
+                        <div class="cms-qa-filters glass">
+                            <span class="cms-qa-label">סינון QA:</span>
+                            <button class="cms-qa-chip" data-qa="invalid">⚠️ לא תקינות</button>
+                            <button class="cms-qa-chip" data-qa="needs_review">🔍 לבדיקה</button>
+                            <button class="cms-qa-chip" data-qa="missing_correct">❌ חסר תשובה</button>
+                            <button class="cms-qa-chip" data-qa="options_not_4">📋 תשובות ≠ 4</button>
+                            <button class="cms-qa-chip" data-qa="duplicates">🔁 כפילויות</button>
+                            <button class="cms-qa-chip" data-qa="short_text">📝 טקסט קצר</button>
                         </div>
                         <div class="cms-list-info">
                             <span id="cmsFilteredCount">0 שאלות</span>
+                            <span id="cmsInvalidCount" class="cms-invalid-summary"></span>
                         </div>
                         <div id="cmsBulkBar" class="cms-bulk-bar glass hidden">
                             <label class="checkbox-label"><input type="checkbox" id="cmsSelectAll"><span>בחר הכל</span></label>

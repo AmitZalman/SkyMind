@@ -170,8 +170,30 @@ function getTopicLabelsJSON() {
     return { mainTopics: meta.mainLabels, subTopics: subTopics };
 }
 
+// Load invalid questions from remote file + localStorage overlay
+function loadInvalidQuestions() {
+    return fetch('data/invalid_questions.json')
+        .then(function(r) { return r.ok ? r.json() : {}; })
+        .catch(function() { return {}; })
+        .then(function(remote) {
+            var merged = Object.assign({}, remote);
+            try {
+                var local = localStorage.getItem('skymind_invalid_questions');
+                if (local) {
+                    var parsed = JSON.parse(local);
+                    for (var id in parsed) {
+                        merged[id] = parsed[id]; // local wins
+                    }
+                }
+            } catch (_) {}
+            state.invalidQuestions = merged;
+            log('Loaded invalid questions (' + Object.keys(merged).length + ' entries)');
+        });
+}
+
 window.loadTopicLabels = loadTopicLabels;
 window.getTopicLabelsJSON = getTopicLabelsJSON;
+window.loadInvalidQuestions = loadInvalidQuestions;
 
 // Centralized application state
 const state = {
@@ -180,6 +202,7 @@ const state = {
     questionsById: {},
     questionsByTopic: {},
     topicsMeta: TOPICS_META,
+    invalidQuestions: {},
     selectedMainTopic: null,
     selectedSubTopic: null,
     progress: {},

@@ -3877,10 +3877,10 @@
     "correctIndex": 0,
     "explanation": "מבנה בסיסי של תא סוללה.",
     "needsReview": false,
-    "updatedAt": 1770805388264,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770805388264
   },
   {
     "id": "q_00206_77cd7a00",
@@ -5100,10 +5100,10 @@
     "correctIndex": 2,
     "explanation": "המערכת המוטסת כוללת את מבנה הכלי, הנעה (מנועים/מדחפים), מקור אנרגיה (מצבר) ומערכת בקרה/בקר טיסה.",
     "needsReview": false,
-    "updatedAt": 1770805529879,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770805529879
   },
   {
     "id": "q_00272_597d3efa",
@@ -5209,538 +5209,6 @@
     ],
     "correctIndex": 2,
     "explanation": "בחיוויי ניווט נפוצים ברב־להב לצורכי התמצאות: אדום בחזית וירוק/כהה יותר מאחור (או שילוב דומה) כדי לזהות כיוון/אוריינטציה בזמן טיסה.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00278_549934ac",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 1 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00279_5139b5f7",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 2 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00280_6c2e77a6",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 3 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00281_80d2202a",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 4 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00282_ef0c4ede",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 5 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00283_a83a801e",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 6 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00284_d107d2ff",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 7 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00285_7b610cdf",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 8 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00286_213d5574",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 9 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00287_999f1ad6",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 10 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00288_193dcc74",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 11 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00289_931eb338",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 12 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00290_40587bb5",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 13 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00291_551b623e",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 14 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00292_7d42e481",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 15 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00293_30344452",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 16 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00294_858a292a",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 17 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00295_78cc47df",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 18 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00296_956bf4b1",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 19 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00297_0073782c",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 20 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00298_3272f76c",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 21 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00299_6cc7a9c5",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 22 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00300_2aba9053",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 23 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00301_50278df3",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 24 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00302_8ba95c02",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 25 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00303_6b237795",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 26 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00304_bd9266e0",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 27 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
-    "needsReview": false,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00305_5481318f",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של propeller_28_questions_sky_mind",
-    "questionText": "שאלה 28 בנושא מדחף",
-    "choices": [
-      "תשובה א",
-      "תשובה ב",
-      "תשובה ג",
-      "תשובה ד"
-    ],
-    "correctIndex": 0,
-    "explanation": "הסבר לדוגמה בנושא מדחפים בהתאם לעקרונות אווירודינמיים בסיסיים.",
     "needsReview": false,
     "rawBlock": "",
     "sourceFile": "questions.json",
@@ -6471,7 +5939,7 @@
     "id": "q_00349_6af610d8",
     "mainTopic": "מטאורולוגיה",
     "subTopic": "יציבות_באטמוספירה_1_עד_79_מאוחד",
-    "questionText": "שאלה 25: מהי יציבות באטמוספירה?",
+    "questionText": "מהי יציבות באטמוספירה?",
     "choices": [
       "התנגדות של האוויר לתנועה אנכית",
       "היכולת של האוויר להאיץ תנועה אופקית",
@@ -6481,10 +5949,10 @@
     "correctIndex": 0,
     "explanation": "יציבות באטמוספירה משקפת את התנגדות האוויר לשינויים אנכיים, מה שמקשה על תנועת גושי אוויר כלפי מעלה או מטה.",
     "needsReview": false,
+    "updatedAt": 1771229562574,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785676356
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00404_6e23e5a7",
@@ -8187,10 +7655,10 @@
     "correctIndex": 1,
     "explanation": "אוויר חם יכול להכיל יותר אדי מים.",
     "needsReview": false,
-    "updatedAt": 1770803311975,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770803311975
   },
   {
     "id": "q_00499_99ef6709",
@@ -8206,10 +7674,10 @@
     "correctIndex": 0,
     "explanation": "גוש אוויר לעולם מכיל כמות כלשהי של אדי מים. גוש אוויר העובר מעל מקווה מים וימים, סופח אדי מים אל קירבו כתלות בטמפ' שלו. ככול שיהיה חם יותר יספח יותר אדי מים. סיבת הדבר היא שככול שחם יותר, המרחק בין מולקולות האוויר גדול יותר ועל כן יש מקום ליותר מולקולות מים ביניהן, כאשר מולקולות האוויר מבודדות אותן האחת מרעותה ומונעות אותן מהתחבר. תהליך של ניתוק מולקולות מים מהמים מתרחש כל עת שהשמש מחממת את מקווה המים - אידוי. תנאי לניתוק הוא ספיגת חום הנשמרת במולקולת המים כחום כמוס. החום הכמוס במולקולת המים גם הוא מונע התחברותן לאדי מים וטיפות.",
     "needsReview": false,
-    "updatedAt": 1770803270379,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770803270379
   },
   {
     "id": "q_00500_4819c9f9",
@@ -8301,10 +7769,10 @@
     "correctIndex": 3,
     "explanation": "הסבר נוסף: לחצים תעופתיים – בתחום התעופה קיימים ארבע 'לחצים' המשמשים כבסיס לכיול מחוון הגובה. QNH – הלחץ השורר בגובה פני הים. מחוון גובה המכויל ללחץ זה יראה את גובה השדה מעל פני הים, כאשר המטוס על הקרקע ואת גובה המטוס מעל פני הים, כאשר המטוס בטיסה.",
     "needsReview": false,
-    "updatedAt": 1770803565492,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770803565492
   },
   {
     "id": "q_00505_4d25d243",
@@ -10852,24 +10320,6 @@
     "updatedAt": 1770785707559
   },
   {
-    "id": "q_00641_8f6803d1",
-    "mainTopic": "ידע טכני",
-    "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה חוזרת בניסוח דומה)\n\n• תחנה, מצבר, מטות ניווט, משדר, כרטיס חכם\n• תחנה, מצבר, מטות ניווט, מקלט, כרטיס חכם\n• תחנה, מצבר, מטות ניווט, מקלט/משדר, כרטיס חכם\n\nתשובה נכונה: ג – מקלט/משדר\nהסבר קצר: שליטה",
-    "choices": [
-      "תחנה, מצבר, מטות ניווט, משדר, כרטיס חכם",
-      "תחנה, מצבר, מטות ניווט, מקלט, כרטיס חכם",
-      "תחנה, מצבר, מטות ניווט, מקלט/משדר, כרטיס חכם"
-    ],
-    "correctIndex": 2,
-    "explanation": "שליטה מחייבת גם שידור וגם קליטה.",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
     "id": "q_00642_8a692cc6",
     "mainTopic": "ידע טכני",
     "subTopic": "operating_aircraft_israel_airspace_49_66",
@@ -10899,24 +10349,6 @@
     ],
     "correctIndex": 2,
     "explanation": "שליטה דורשת מקור מתח ואמצעי היגוי.  שאלה מהם רכיבי מערכת השליטה הקרקעית של רחפן? (",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00644_97ab9437",
-    "mainTopic": "ידע טכני",
-    "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה מסכמת)\n\n• תחנה, מצבר, מטות ניווט, משדר\n• תחנה, מצבר, מטות ניווט, מקלט\n• תחנה, מצבר, מטות ניווט, מקלט/משדר\n\nתשובה נכונה: ג – מקלט/משדר\nהסבר קצר: תקשורת דו־כיוונית היא תנאי לשליטה בטוחה.\n\nמערכת החש",
-    "choices": [
-      "תחנה, מצבר, מטות ניווט, משדר",
-      "תחנה, מצבר, מטות ניווט, מקלט",
-      "תחנה, מצבר, מטות ניווט, מקלט/משדר"
-    ],
-    "correctIndex": 2,
-    "explanation": "תקשורת דו־כיוונית היא תנאי לשליטה בטוחה. מערכת החשמל:",
     "needsReview": true,
     "rawBlock": "",
     "sourceFile": "questions.json",
@@ -11916,24 +11348,6 @@
     "updatedAt": 1770785707559
   },
   {
-    "id": "q_00698_702f815d",
-    "mainTopic": "ידע טכני",
-    "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה.\n• נדרש אותו הספק כמו בטיסה ישרה\n• נדרש יותר הספק מטיסה ישרה\n• נדרש פחות הספק מטיסה ישרה\n\nתשובה נכונה: ג – נדרש יותר הספק מטיסה ישרה\nהסבר קצר: בפנייה חדה הגרר גדל ולכן נדרש הספק גבוה יותר.\n\n\n\n\nמש",
-    "choices": [
-      "נדרש אותו הספק כמו בטיסה ישרה",
-      "נדרש יותר הספק מטיסה ישרה",
-      "נדרש פחות הספק מטיסה ישרה"
-    ],
-    "correctIndex": 2,
-    "explanation": "בפנייה חדה הגרר גדל ולכן נדרש הספק גבוה יותר. משקל ואיזון:",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
     "id": "q_00699_c26cbd9d",
     "mainTopic": "ידע טכני",
     "subTopic": "עותק של weight_balance_questions_sky_mind",
@@ -11994,7 +11408,7 @@
     "id": "q_00702_93ec5708",
     "mainTopic": "מטאורולוגיה",
     "subTopic": "חזיתות",
-    "questionText": "שאלה\n\nיום\n\n• חלק היום שבין זמני דמדומים\n• זמן תאורה\n• זמן שאינו לילה\n• זמן שהראות בו תקינה\n\nתשובה נכונה: זמן שאינו לילה\nהסבר קצר: על פי הגדרות רת״א, יום מוגדר פשוט כזמן שאינו לילה.\n\n⸻",
+    "questionText": "יום מוגדר",
     "choices": [
       "חלק היום שבין זמני דמדומים",
       "זמן תאורה",
@@ -12003,11 +11417,11 @@
     ],
     "correctIndex": 2,
     "explanation": "על פי הגדרות רת״א, יום מוגדר פשוט כזמן שאינו לילה.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229615792,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785676356
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00703_e5d76fed",
@@ -12355,7 +11769,7 @@
     "id": "q_00721_366d84a0",
     "mainTopic": "ידע טכני",
     "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה\n\nמטיס\n\n• כל אדם המחזיק כלי טיס\n• אדם השולט בפועל בכלי טיס\n• בעל כלי הטיס\n• איש צוות קרקע\n\nתשובה נכונה: אדם השולט בפועל בכלי טיס\nהסבר קצר: מטיס הוא מי שמפעיל ושולט בכלי בזמן הטיסה.\n\n⸻",
+    "questionText": "מטיס\n\n• כל אדם המחזיק כלי טיס\n• אדם השולט בפועל בכלי טיס\n• בעל כלי הטיס\n• איש צוות קרקע\n\nתשובה נכונה: אדם השולט בפועל בכלי טיס\nהסבר קצר: מטיס הוא מי שמפעיל ושולט בכלי בזמן הטיסה.\n\n⸻",
     "choices": [
       "כל אדם המחזיק כלי טיס",
       "אדם השולט בפועל בכלי טיס",
@@ -12364,17 +11778,17 @@
     ],
     "correctIndex": 1,
     "explanation": "מטיס הוא מי שמפעיל ושולט בכלי בזמן הטיסה.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229636888,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00722_96fe4ea9",
     "mainTopic": "מטאורולוגיה",
     "subTopic": "חזיתות",
-    "questionText": "שאלה\n\nראות\n\n• תנאי תאורה\n• המרחק שבו ניתן לראות עצמים בבירור\n• מצב מזג אוויר\n• גובה העננים\n\nתשובה נכונה: המרחק שבו ניתן לראות עצמים בבירור\nהסבר קצר: ראות נמדדת לפי מרחק הזיהוי.\n\n⸻",
+    "questionText": "מהיר ראות\n\n• תנאי תאורה\n• המרחק שבו ניתן לראות עצמים בבירור\n• מצב מזג אוויר\n• גובה העננים\n\nתשובה נכונה: המרחק שבו ניתן לראות עצמים בבירור\nהסבר קצר: ראות נמדדת לפי מרחק הזיהוי.\n\n⸻",
     "choices": [
       "תנאי תאורה",
       "המרחק שבו ניתן לראות עצמים בבירור",
@@ -12383,17 +11797,17 @@
     ],
     "correctIndex": 1,
     "explanation": "ראות נמדדת לפי מרחק הזיהוי.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229665386,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785676356
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00723_42a218b5",
     "mainTopic": "מטאורולוגיה",
     "subTopic": "חזיתות",
-    "questionText": "שאלה\n\nגובה\n\n• מרחק אנכי מעל פני הקרקע\n• מרחק מעל פני הים\n• מרחק אופקי\n• גובה עננים\n\nתשובה נכונה: מרחק אנכי מעל פני הקרקע\nהסבר קצר: גובה נמדד ביחס לקרקע.\n\n⸻",
+    "questionText": "ממה נמדד גוב",
     "choices": [
       "מרחק אנכי מעל פני הקרקע",
       "מרחק מעל פני הים",
@@ -12402,11 +11816,11 @@
     ],
     "correctIndex": 0,
     "explanation": "גובה נמדד ביחס לקרקע.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229700185,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785676356
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00724_343cf7de",
@@ -13551,7 +12965,7 @@
     "id": "q_00784_f216597a",
     "mainTopic": "חוקי טיס",
     "subTopic": "chok_hatis_perek_11_163_171",
-    "questionText": "שאלה מס’ 2\n\nזמן\n\n• הוא הזמן האזורי\n• הוא הזמן שנקבע בין המשתתפים בטיסה\n• הוא הזמן המקומי\n• הוא זמן UTC\n\nתשובה נכונה:\n• הוא זמן UTC\n\nהסבר קצר:\nהגדרת “זמן” בתקנות תעופה מתייחסת תמיד ל־UTC.\n\n⸻",
+    "questionText": "מהו הזמן שהזמן שעובדים לפיו",
     "choices": [
       "הוא הזמן האזורי",
       "הוא הזמן שנקבע בין המשתתפים בטיסה",
@@ -13560,11 +12974,11 @@
     ],
     "correctIndex": 3,
     "explanation": "הגדרת “זמן” בתקנות תעופה מתייחסת תמיד ל־UTC.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229767730,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785683127
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00785_76840ed4",
@@ -14134,29 +13548,10 @@
     "updatedAt": 1770785707559
   },
   {
-    "id": "q_00815_2af37ac1",
-    "mainTopic": "ידע טכני",
-    "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה מס’ 6\nמנחת\n\n• שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניית של כלי טיס, ואינו שדה תעופה\n• שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמרא",
-    "choices": [
-      "שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניית של כלי טיס, ואינו שדה תעופה",
-      "שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניית של מסוקים",
-      "שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניית של כלי טיס",
-      "שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניית של כלי טיס ושאינו מסלול תעופה"
-    ],
-    "correctIndex": 0,
-    "explanation": "ההבחנה המרכזית היא שמנחת אינו מוגדר כשדה תעופה.",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
     "id": "q_00816_a347ddef",
     "mainTopic": "חוקי טיס",
     "subTopic": "chok_hatis_23_questions_ready_app",
-    "questionText": "שאלה מס’ 10\nרשות\n\n• רשות התעופה הכללית\n• מנהל התעופה האזרחית\n• רשות התעופה הישראלית\n• רשות התעופה האזרחית\n\nתשובה נכונה:\nרשות התעופה האזרחית\n\nהסבר קצר:\nזהו הגוף הסטטוטורי המוסמך לפי חוק הטיס בישראל.\n\n⸻",
+    "questionText": "מהי הרשות שאליה מטיס כפוף",
     "choices": [
       "רשות התעופה הכללית",
       "מנהל התעופה האזרחית",
@@ -14165,11 +13560,11 @@
     ],
     "correctIndex": 3,
     "explanation": "זהו הגוף הסטטוטורי המוסמך לפי חוק הטיס בישראל.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229823913,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785683127
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00817_81af3f23",
@@ -14317,25 +13712,6 @@
     ],
     "correctIndex": 1,
     "explanation": "מיתקן עזר אינו מחובר פיזית לכלי הטיס.",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00825_4035ce3c",
-    "mainTopic": "ידע טכני",
-    "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה מס’ 6\n\nמנחת\n\n• שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניה של כלי טיס, ואינו שדה תעופה\n• שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמרא",
-    "choices": [
-      "שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניה של כלי טיס, ואינו שדה תעופה",
-      "שטח יבשתי או ימי המשמש או המיועד לשמש, כולו או חלקו, לנחיתה, להמראה, להסעה או לחניה של מטוסים",
-      "שטח יבשתי או ימי המשמש או המיועד לשמש לנחיתה ולהמראה בלבד",
-      "שטח יבשתי או ימי המשמש או המיועד לשמש לחניה בלבד"
-    ],
-    "correctIndex": 0,
-    "explanation": "ההבחנה המרכזית: מנחת ≠ שדה תעופה.",
     "needsReview": true,
     "rawBlock": "",
     "sourceFile": "questions.json",
@@ -15521,67 +14897,29 @@
     "updatedAt": 1770785707559
   },
   {
-    "id": "q_00888_2d2b5fb6",
-    "mainTopic": "ידע טכני",
-    "subTopic": "עותק של operating_aircraft_israel_airspace_49_66 2",
-    "questionText": "שאלה מס’ 1 פמ\"ת אסורה הטסת כטב\"ם המוטס בקשר עין בתחום אזור פיקוח שדה תעופהאו בתחום אווירי של מנחת::",
-    "choices": [
-      "אלא אם כן קיבל מפעיל הכטב\"ם אישור לכך מאת מנהל יחידת הפיקוח בשדה התעופה, או מנח\"ט תעבורה אווירית רש\"ת, או ממפעיל המנחת",
-      "אלא אם כן קיבל מפעיל הכטב\"ם אישור לכך מאת מנהל יחידת הנת\"א בשדה התעופה, או מנח\"ט תעבורה אווירית רש\"ת, או ממפעיל המנחת",
-      "אלא אם כן קיבל מפעיל הכטב\"ם אישור לכך מאת מנהל יחידת הנת\"א בשדה התעופה, או יחידת תעבורה אווירית רש\"ת, או ממפעיל המנחת",
-      "אלא אם כן קיבל מפעיל הכטב\"ם אישור לכך מאת מנהל יחידת הנת\"א בשדה התעופה, או מנח\"ט תעבורה אווירית רש\"ת, או מהבעלים של המנחת."
-    ],
-    "correctIndex": 1,
-    "explanation": "החוק מחייב תיאום ואישור פרטני מגורם הניהול האווירי המוסמך באותו שדה או מנחת לפני טיסת כטב\"ם בתחומו.",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
     "id": "q_00889_1875422d",
     "mainTopic": "ידע טכני",
     "subTopic": "עותק של operating_aircraft_israel_airspace_49_66 2",
-    "questionText": "שאלה מס’ 2 פמ\"ת במפת גבוה נמוך מופיע נתיב ועליו הכיתוב 1200. גובה הקרקע '350. באלו תנאים מותר להטיס כטב\"מ ?",
+    "questionText": "פמ\"ת במפת גבוה נמוך מופיע נתיב ועליו הכיתוב 1200. גובה הקרקע '350. באלו תנאים מותר להטיס כטב\"מ ?",
     "choices": [
       "לא ניתן להטיס",
-      "מותר להטיס אם הנתיב עובר באזור הטסת כטב\"מ",
+      "מותר להטיס אם הנתיב עובר באזור הטסת כטב",
       "מותר להטיס בקשר עין בהפרדה אנכית 200 רגל ו - 250 מ' רוחבית ואורכית",
-      "מותר להטיס באישור נת\"א"
+      "מותר להטיס באישור נת"
     ],
     "correctIndex": 2,
     "explanation": "כללי הפרדה מופחתת מאפשרים טיסת כטב\"ם בקשר עין בקרבת נתיב מאויש תוך שמירת מרווחי בטיחות אלו.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229944334,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
-  },
-  {
-    "id": "q_00890_50d75b52",
-    "mainTopic": "חוקי טיס",
-    "subTopic": "chok_hatis_perek_11_163_171",
-    "questionText": "שאלה מס’ 3 באילו תנאים מותר להטיס כטב\"מ בתנאי כטר\"מ מיוחד ?",
-    "choices": [
-      ".על מטיס הכטב\"ם להיות בקשר עין עם הכטב\"ם וסביבתו, כך שיוכל לשלוט עליו ולהקפיד על ההפרדות הנדרשות מהקרקע ומכלי טיס אחרים",
-      ".על מפעיל הכטב\"ם או הצופה להיות בקשר עין עם הכטב\"ם וסביבתו, כך שיוכל לשלוט עליו ולהקפיד על ההפרדות הנדרשות מהקרקע ומכלי טיס אחרים",
-      ".על מטיס הכטב\"ם או הצופה להיות בקשר עין עם הכטב\"ם, כך שיוכל לשלוט עליו ולהקפיד על ההפרדות הנדרשות מהקרקע ומכלי טיס אחרים",
-      ".על מטיס הכטב\"ם או הצופה להיות בקשר עין עם הכטב\"ם וסביבתו, כך שיוכל לשלוט עליו ולהקפיד על ההפרדות הנדרשות מהקרקע ומכלי טיס אחרים"
-    ],
-    "correctIndex": 3,
-    "explanation": "בתנאי כטר\"מ מיוחד נדרש קשר עין רציף (של המטיס או הצופה) גם עם הכלי וגם עם הסביבה למניעת התנגשויות.",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785683127
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00891_8ff4b3b2",
     "mainTopic": "ידע טכני",
     "subTopic": "operating_aircraft_israel_airspace_49_66",
-    "questionText": "שאלה מס’ 4 באיזה גובה מותר להטיס רחפן בנתיב תובלה ?",
+    "questionText": "באיזה גובה מותר להטיס רחפן בנתיב תובלה ?",
     "choices": [
       "מותר מתחת ומעל גובה הנתיב",
       "אסור",
@@ -15590,49 +14928,30 @@
     ],
     "correctIndex": 1,
     "explanation": "טיסת רחפן בתוך נתיבי תובלה אווירית אסורה מחשש לפגיעה בבטיחות הטיסה של כלי טיס מאוישים.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229894500,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00892_c37a653f",
     "mainTopic": "חוקי טיס",
     "subTopic": "chok_hatis_perek_11_163_171",
-    "questionText": "שאלה מס’ 5 פמ\"ת האם מותרת הפרדה מופחתת לכטמ\"מ בטיסת לילה ?",
+    "questionText": "פמ\"ת האם מותרת הפרדה מופחתת לכטמ\"מ בטיסת לילה ?",
     "choices": [
       "מותר",
       "אסור",
-      "באישור רת\"א",
+      "באישור רת",
       "מחוץ לאזור מאוכלס בלבד"
     ],
     "correctIndex": 1,
     "explanation": "הפרדות מופחתות מבוססות על קשר עין וזיהוי הדדי, יכולת שמוגבלת משמעותית בלילה ולכן אסורה.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229907594,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785683127
-  },
-  {
-    "id": "q_00893_5a97d8e5",
-    "mainTopic": "חוקי טיס",
-    "subTopic": "chok_hatis_23_questions_ready_app",
-    "questionText": "שאלה מס’ 6 פמ\"ת היכן ניתן להטיס כטב\"מ ?",
-    "choices": [
-      "עד 250 רגל בתוך האזור האסור \"ירושלים\"",
-      "עד 350 רגל מחוץ לאזור האסור \"ירושלים\"",
-      "עד 200 רגל בתוך האזור האסור \"החולה\"",
-      "אין"
-    ],
-    "correctIndex": 1,
-    "explanation": "בתוך אזורים אסורים (כמו ירושלים) הטיסה אסורה לחלוטין, אך מחוצה להם ניתן לטוס עד המגבלה המותרת (במקרה זה 350 רגל צוינה כאופציה החוקית).  שאלה מס’ 7 פמ\"ת אילו משפטים נכונים עבור הטסת רחפן בתנאי כטר\"מ ? שמירה על קשר עין עם אופק טבעי. הטיסה מבוצעת בשעות אור יום ראות אופקית של 3 ק\"מ. קיום ראות אופקית של 5 ק\"מ לפחות בטיסה עד לגובה 000 10 רגל שמירת מרחק אופקי של 1500 מטר לפחות מעננים. שמירת מרחק אנכי של 1000 רגל מהעננים 7.מרחק אנכי של 200 רגל מעננים. כאשר כמות העננים עולה על 4/8 מפני השמים, שמירת מרחק ",
-    "needsReview": true,
-    "rawBlock": "",
-    "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785683127
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00894_35da3a14",
@@ -15640,18 +14959,18 @@
     "subTopic": "chok_hatis_23_questions_ready_app",
     "questionText": "שאלה מס’ 6 פמ\"ת היכן ניתן להטיס כטב\"מ ?",
     "choices": [
-      "עד 250 רגל בתוך האזור האסור \"ירושלים\"",
-      "עד 350 רגל מחוץ לאזור האסור \"ירושלים\"",
-      "עד 200 רגל בתוך האזור האסור \"החולה\"",
+      "עד 250 רגל בתוך האזור האסור",
+      "עד 350 רגל מחוץ לאזור האסור",
+      "עד 200 רגל בתוך האזור האסור",
       "אין תשובה נכונה"
     ],
     "correctIndex": 1,
     "explanation": "בתוך אזורים אסורים (כמו ירושלים) הטיסה אסורה לחלוטין, אך מחוצה להם ניתן לטוס עד המגבלה המותרת (במקרה זה 350 רגל צוינה כאופציה החוקית).",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229931927,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785683127
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00895_64d414f3",
@@ -15676,7 +14995,7 @@
     "id": "q_00896_4dd24d55",
     "mainTopic": "מטאורולוגיה",
     "subTopic": "חזיתות",
-    "questionText": "שאלה מס’ 8 פמ\"ת אזורי הפעילות של כטב\"מ:",
+    "questionText": "פמ\"ת אזורי הפעילות של כטב\"מ:",
     "choices": [
       "גובה הסגירה האווירית המרבי האפשרי הינו 700 רגל מעל פני השטח, ברדיוס של עד 500 מטר",
       "גובה הסגירה האווירית המרבי האפשרי הינו 500 רגל מעל פני השטח, ברדיוס של עד 750 מטר",
@@ -15685,30 +15004,30 @@
     ],
     "correctIndex": 1,
     "explanation": "אלו המגבלות הסטנדרטיות להגדרת \"בועה\" (אזור סגור) להפעלת כטב\"ם ללא תיאום פרטני חריג.",
-    "needsReview": true,
+    "needsReview": false,
+    "updatedAt": 1771229981141,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785676356
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00897_f1623040",
     "mainTopic": "ידע טכני",
     "subTopic": "עותק של operating_aircraft_israel_airspace_49_66 2",
-    "questionText": "שאלה מס’ 9 פמ\"ת בתשתית אווירית בה טסים ע\"פ כט\"ם (IFR), המרחק הרוחבי/אורכי בין כטב\"מ לכלי טיס מאויש לא יפחת מ:",
+    "questionText": "פמ\"ת בתשתית אווירית בה טסים ע\"פ כט\"ם (IFR), המרחק הרוחבי/אורכי בין כטב\"מ לכלי טיס מאויש לא יפחת מ:",
     "choices": [
-      "5 מי\"מ",
-      "5 ק\"מ",
-      "3 מי\"מ",
+      "5 מי",
+      "5 ק",
+      "3 מי",
       "5000 רגל"
     ],
     "correctIndex": 0,
     "explanation": "הפרדת מכ\"ם סטנדרטית בטיסת מכשירים (IFR) דורשת מרווח אופקי של לפחות 5 מייל ימי.",
     "needsReview": true,
+    "updatedAt": 1771229994128,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389,
-    "updatedAt": 1770785707559
+    "createdAt": 1770195876389
   },
   {
     "id": "q_00898_bff1ab38",
@@ -18347,10 +17666,10 @@
     "correctIndex": 1,
     "explanation": "בלילות בהירים וללא רוח, הקרקע מתקררת במהירות (קרינה) ומקררת את שכבת האוויר הצמודה אליה, מתחת לאוויר חם יותר.",
     "needsReview": false,
-    "updatedAt": 1770805269865,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770805269865
   },
   {
     "id": "q_00982_8db0a6a3",
@@ -18366,10 +17685,10 @@
     "correctIndex": 2,
     "explanation": "שכבת האינברסיה היא יציבה מאוד ומונעת תנועות אנכיות וערבול, מה שגורם לעיתים לכליאת זיהום ואובך (ראות גרועה).",
     "needsReview": false,
-    "updatedAt": 1770805265274,
     "rawBlock": "",
     "sourceFile": "questions.json",
-    "createdAt": 1770195876389
+    "createdAt": 1770195876389,
+    "updatedAt": 1770805265274
   },
   {
     "id": "q_00983_375cfda6",
@@ -22033,10 +21352,10 @@
     "correctIndex": null,
     "explanation": "צדקת!",
     "needsReview": false,
-    "updatedAt": 1770786390559,
     "rawBlock": "",
-    "sourceFile": "manual",
-    "createdAt": 1770786390559
+    "sourceFile": "questions.json",
+    "createdAt": 1770786390559,
+    "updatedAt": 1770786390559
   },
   {
     "id": "q_mlhl0shl_phc2tq3j",
@@ -22051,10 +21370,10 @@
     "correctIndex": 0,
     "explanation": "לחץ בגובה פני הים - 1013 מיליבר או 29.92 אינטש כספית (QNE)",
     "needsReview": false,
-    "updatedAt": 1770787392808,
     "rawBlock": "",
-    "sourceFile": "manual",
-    "createdAt": 1770787380504
+    "sourceFile": "questions.json",
+    "createdAt": 1770787380504,
+    "updatedAt": 1770787392808
   },
   {
     "id": "q_mlhl7f40_ea95v0mk",
@@ -22070,10 +21389,10 @@
     "correctIndex": 1,
     "explanation": "הסבר נוסף:\n\nמפל נקודת הטל – טמפ' הטל יורדת ב – 1/2° לכל 1000 רגל. שחרור החום הכמוס במולקולות המים מתרחש בכל עת שגוש האוויר עולה מעלה ואף בטרם הגיע לטמפ' נקודת הטל, על כן טמפ' נקודת הטל גם היא עולה עם הגובה. לצורכי החישוב הפשוט היא מפחיתה את ירידת טמפ' גוש האוויר העולה ב- 1/2° לכל 1000 רגל ונקראת \"מפל טמפ' הטל\". משמע שמפל אדיאבטי יבש אינו 3° לכל 1000 רגל, אלא 2.5 מעלות לכל 1000 רגל.\n\nחרף זאת, אינך מתחשב במפל טמפ' נקודת הטל, אלא אם השאלה כוללת בתוכה ערך זה במפורש !",
     "needsReview": false,
-    "updatedAt": 1770787785435,
     "rawBlock": "",
-    "sourceFile": "manual",
-    "createdAt": 1770787785435
+    "sourceFile": "questions.json",
+    "createdAt": 1770787785435,
+    "updatedAt": 1770787785435
   },
   {
     "id": "q_mlhuezm6_6lh82cx7",
@@ -22089,9 +21408,9 @@
     "correctIndex": 2,
     "explanation": "טמפרטורת נק׳ הטל יורדת ב 1/2 מעלה בכל 100 רגל",
     "needsReview": false,
-    "updatedAt": 1770803148277,
     "rawBlock": "",
-    "sourceFile": "manual",
-    "createdAt": 1770803148277
+    "sourceFile": "questions.json",
+    "createdAt": 1770803148277,
+    "updatedAt": 1770803148277
   }
 ]
